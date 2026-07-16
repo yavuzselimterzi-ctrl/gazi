@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Başvuru — GAZİ Meclis-i Mebusan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'EB Garamond', serif;
+            background-image: url('görseller/arkaplan.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #f0ece4;
+            padding: 2rem;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(28, 4, 4, 0.78) 0%, rgba(42, 8, 9, 0.82) 50%, rgba(28, 4, 4, 0.75) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        body > * {
+            position: relative;
+            z-index: 1;
+        }
+        .container { max-width:900px; margin:0 auto; background:#F2EBDC; color:#2a0e0e; padding:2.5rem; border-radius:8px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+        .font-title { font-family: 'Cinzel', serif; }
+        a.back { display:inline-block; margin-bottom:1rem; color:#D4AF37; }
+    </style>
+</head>
+<body>
+    <div class="max-w-3xl mx-auto text-center py-6">
+        <div class="mx-auto mb-6">
+            <img src="görseller/logo.png" alt="Logo" class="w-20 h-20 mx-auto object-contain logo-gold">
+        </div>
+
+        <h1 class="font-title text-4xl md:text-5xl font-black text-[#3D0C0D] mb-3">Mühim Duyuru</h1>
+        <p class="font-title text-sm md:text-base text-gold tracking-[0.25em] uppercase mb-6">GAZİ Meclis-i Mebusan</p>
+
+        <div class="rounded-[1rem] border border-gold/20 bg-[#fff7ea] p-6 text-left shadow-lg">
+            <p class="text-sm text-[#2a0e0e] leading-8 mb-4">Muhterem Ziyaretçilerimiz,</p>
+
+            <p class="text-sm text-[#2a0e0e] leading-8 mb-4">GAZİ Meclis-i Mebusan başvuruları henüz başlamamıştır.</p>
+
+            <p class="text-sm text-[#2a0e0e] leading-8 mb-4">Yakın zamanda başvuru süreci başlayacak; tarih, şartlar ve tüm ayrıntılar bu sayfa üzerinden ilan edilecektir.</p>
+
+            <p class="text-sm text-[#2a0e0e] leading-8 mb-4">O güne dek resmî duyurularımızı takip etmenizi rica eder, göstereceğiniz ilgi için teşekkür ederiz.</p>
+
+            <p class="text-sm text-gold/80 italic leading-8 mb-4">"Geçmişini bilen, geleceğini yazan nesil."</p>
+
+            <p class="text-base md:text-lg font-title font-semibold text-[#3D0C0D]">Başvurular Çok Yakında Açılıyor...</p>
+        </div>
+
+        <div class="mt-6">
+            <a href="#" id="geri-don" class="btn-outline-gold mr-3">Geri Dön</a>
+            <a href="https://www.instagram.com/gazimeclis26/" target="_blank" rel="noopener noreferrer" class="btn-hero">Bizi Takip Et</a>
+        </div>
+    </div>
+</body>
+</html>

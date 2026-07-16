@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gazi Meclis-i Mebusan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            DEFAULT: '#D4AF37',
+                            dark: '#B8942E',
+                            light: '#E8C96A'
+                        },
+                        maroon: {
+                            DEFAULT: '#3D0C0D',
+                            dark: '#2A0809',
+                            deeper: '#1C0404'
+                        },
+                        parchment: {
+                            DEFAULT: '#F2EBDC',
+                            dark: '#E2D5BE'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Cinzel', 'serif'],
+                        body: ['EB Garamond', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script>
+        // In-site overlay navigation for local pages like basvuru.html
+        (function(){
+            function createPanel(){
+                let panel = document.getElementById('in-site-panel');
+                if (panel) return panel;
+                panel = document.createElement('div');
+                panel.id = 'in-site-panel';
+                panel.innerHTML = `
+                    <div class="in-site-panel-inner" role="dialog" aria-modal="true">
+                        <button class="in-site-close" aria-label="Kapat">×</button>
+                        <div class="in-site-content"></div>
+                    </div>
+                `;
+                document.body.appendChild(panel);
+                panel.querySelector('.in-site-close').addEventListener('click', closeInSitePage);
+                return panel;
+            }
+
+            async function openInSitePage(url, push = true){
+                try {
+                    const res = await fetch(url, {credentials:'same-origin'});
+                    if (!res.ok) throw new Error('Network error');
+                    const text = await res.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(text, 'text/html');
+                    const content = doc.body ? doc.body.innerHTML : text;
+                    const title = doc.querySelector('title') ? doc.querySelector('title').textContent : document.title;
+
+                    const panel = createPanel();
+                    panel.querySelector('.in-site-content').innerHTML = content;
+                    // close links inside the injected content (e.g., 'Geri Dön')
+                    panel.querySelectorAll('a').forEach(a=>{
+                        const href = a.getAttribute('href');
+                        if (!href || href === '#' || href.trim() === '') {
+                            a.addEventListener('click', (ev)=>{ ev.preventDefault(); closeInSitePage(); window.scrollTo({top:0, behavior:'smooth'}); });
+                        }
+                        // external links (instagram etc.) should open in new tab — keep default
+                    });
+                    panel.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                    if (push) history.pushState({inSite:true, url: url}, title, url);
+                    document.title = title;
+                } catch (err) {
+                    console.error(err);
+                    // fallback to normal navigation
+                    window.location.href = url;
+                }
+            }
+
+            function closeInSitePage(fromPopstate){
+                const panel = document.getElementById('in-site-panel');
+                if (!panel) return;
+                panel.classList.remove('open');
+                document.body.style.overflow = '';
+                // if the close wasn't triggered by popstate, go back in history
+                if (!fromPopstate) {
+                    try { history.back(); } catch(e){}
+                }
+                setTimeout(()=>{
+                    const content = panel.querySelector('.in-site-content');
+                    if (content) content.innerHTML = '';
+                }, 300);
+            }
+
+            // Attach click handlers to BAŞVURU YAP links (and any other local links)
+            function bindInSiteLinks(){
+                document.querySelectorAll('a[href$="basvuru.html"]').forEach(a=>{
+                    a.addEventListener('click', function(e){
+                        e.preventDefault();
+                        const href = a.getAttribute('href');
+                        openInSitePage(href, true);
+                    });
+                });
+            }
+
+            // Handle back/forward navigation
+            window.addEventListener('popstate', (e)=>{
+                if (e.state && e.state.inSite) {
+                    // open the URL in-site without pushing
+                    openInSitePage(location.pathname + location.search, false);
+                } else {
+                    // close panel if open
+                    closeInSitePage(true);
+                }
+            });
+
+            // Initialize on DOM ready
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bindInSiteLinks);
+            else bindInSiteLinks();
+        })();
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'EB Garamond', serif;
+            background-color: #1C0404;
+            background-image:
+                radial-gradient(ellipse 80% 50% at 50% -10%, rgba(212, 175, 55, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 100% 100%, rgba(61, 12, 13, 0.8) 0%, transparent 50%),
+                linear-gradient(180deg, #1C0404 0%, #2A0809 40%, #3D0C0D 100%);
+            background-attachment: fixed;
+            color: #f0ece4;
+        }
+        .scroll-decoration {
+            position: fixed;
+            top: 32%;
+            right: 2.5rem;
+            width: 5.5rem;
+            height: 5.5rem;
+            z-index: 40;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-origin: center;
+        }
+        .scroll-decoration svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 18px rgba(212, 175, 55, 0.35));
+        }
+        .scroll-decoration .moon-star {
+            animation: float 5s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .font-title {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Logo: siyah PNG'yi altın rengine dönüştür */
+        .logo-gold {
+            filter: brightness(0) saturate(100%) invert(72%) sepia(45%) saturate(600%) hue-rotate(5deg) brightness(95%) contrast(92%);
+        }
+
+        .btn-outline-gold {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #D4AF37;
+            color: #D4AF37;
+            padding: 0.6rem 1.5rem;
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            transition: all 0.25s ease;
+        }
+        .btn-outline-gold:hover {
+            background-color: #D4AF37;
+            color: #3D0C0D;
+        }
+
+        .btn-hero {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #D4AF37;
+            color: #1C0404;
+            padding: 0.85rem 2.2rem;
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            transition: all 0.25s ease;
+        }
+        .btn-hero:hover {
+            background-color: #B8942E;
+            transform: translateY(-2px);
+        }
+
+        /* Hero background */
+        .hero-section {
+            min-height: 85vh;
+            position: relative;
+            overflow: hidden;
+            background: #1C0404;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('görseller/arkaplan.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(to bottom, rgba(28, 4, 4, 0.55) 0%, rgba(28, 4, 4, 0.35) 40%, rgba(28, 4, 4, 0.65) 100%),
+                radial-gradient(ellipse 80% 70% at 50% 45%, rgba(28, 4, 4, 0.25) 0%, rgba(28, 4, 4, 0.55) 100%);
+        }
+        .hero-content h1 {
+            text-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
+        }
+        .hero-content p {
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Parchment texture */
+        .parchment-bg {
+            background-color: #F2EBDC;
+            background-image:
+                radial-gradient(ellipse 100% 80% at 50% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+                url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9b896' fill-opacity='0.12'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* Reveal on scroll animations with helper variants */
+        :root {
+            --reveal-dur: 700ms;
+            --reveal-ease: cubic-bezier(.2,.8,.2,1);
+            --reveal-child-dur: 560ms;
+            --reveal-stagger: 70ms;
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px) scale(0.995);
+            transition: opacity var(--reveal-dur) var(--reveal-ease), transform var(--reveal-dur) var(--reveal-ease);
+            will-change: opacity, transform;
+        }
+        .reveal.in-view {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Variants */
+        .reveal--slide-left { transform: translateX(28px) scale(0.995); }
+        .reveal--slide-right { transform: translateX(-28px) scale(0.995); }
+        .reveal--zoom { transform: translateY(8px) scale(0.96); }
+        .reveal--fade { transform: none; opacity: 0; }
+
+        .reveal.in-view.reveal--zoom { transform: translateY(0) scale(1); }
+        .reveal.in-view.reveal--slide-left,
+        .reveal.in-view.reveal--slide-right,
+        .reveal.in-view.reveal--fade { transform: translateX(0) translateY(0) scale(1); opacity:1; }
+
+        /* Stagger children inside revealed containers (JS will assign delays too) */
+        .reveal > * {
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity var(--reveal-child-dur) ease, transform var(--reveal-child-dur) ease;
+        }
+        .reveal.in-view > * { opacity:1; transform:none; }
+
+        /* Optional helper for single items */
+        .reveal-item { will-change: opacity, transform; }
+
+        /* In-site page overlay (fetches and displays another page inside the site) */
+        #in-site-panel {
+            position: fixed;
+            inset: 0;
+            z-index: 120;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 3rem 1.25rem;
+            background: rgba(12,2,2,0.85);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 260ms ease;
+        }
+        #in-site-panel.open { opacity: 1; pointer-events: auto; }
+        .in-site-panel-inner {
+            width: 100%;
+            max-width: 980px;
+            background: #F2EBDC;
+            color: #2a0e0e;
+            border-radius: 10px;
+            overflow: auto;
+            max-height: 90vh;
+            padding: 1.5rem 1.75rem;
+            position: relative;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+        }
+        .in-site-close {
+            position: absolute;
+            top: 0.6rem;
+            right: 0.6rem;
+            background: transparent;
+            border: none;
+            font-size: 1.4rem;
+            color: #3D0C0D;
+            cursor: pointer;
+        }
+        
+
+        /* Dark section backgrounds */
+        .section-dark {
+            background:
+                radial-gradient(ellipse 60% 40% at 50% 0%, rgba(212, 175, 55, 0.05) 0%, transparent 55%),
+                linear-gradient(180deg, #3D0C0D 0%, #2A0809 100%);
+        }
+        .section-dark-deeper {
+            background:
+                radial-gradient(ellipse 50% 30% at 80% 50%, rgba(212, 175, 55, 0.04) 0%, transparent 50%),
+                linear-gradient(180deg, #2A0809 0%, #1C0404 100%);
+        }
+
+        /* Stats cards - gold bordered vertical */
+        .stat-card {
+            border: 1px solid #D4AF37;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 1.75rem 1.25rem;
+            text-align: center;
+        }
+        .stat-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            margin: 0 auto 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #D4AF37;
+            font-size: 1.25rem;
+        }
+
+        /* Encumen ornate corner borders */
+        .encumen-card {
+            position: relative;
+            background: rgba(61, 12, 13, 0.85);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            padding: 2rem 1.5rem;
+            min-height: 140px;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .encumen-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(212, 175, 55, 0.7);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+        }
+        .encumen-card:focus-visible {
+            outline: 2px solid #D4AF37;
+            outline-offset: 2px;
+        }
+        .encumen-card::before,
+        .encumen-card::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border-color: #D4AF37;
+            border-style: solid;
+        }
+        .encumen-card::before {
+            top: 8px;
+            left: 8px;
+            border-width: 2px 0 0 2px;
+        }
+        .encumen-card::after {
+            bottom: 8px;
+            right: 8px;
+            border-width: 0 2px 2px 0;
+        }
+        .encumen-card .corner-tr,
+        .encumen-card .corner-bl {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border-color: #D4AF37;
+            border-style: solid;
+        }
+        .encumen-card .corner-tr {
+            top: 8px;
+            right: 8px;
+            border-width: 2px 2px 0 0;
+        }
+        .encumen-card .corner-bl {
+            bottom: 8px;
+            left: 8px;
+            border-width: 0 0 2px 2px;
+        }
+
+        /* Section title decoration */
+        .section-title-deco {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .section-title-deco::before,
+        .section-title-deco::after {
+            content: '';
+            height: 1px;
+            width: 60px;
+            background: linear-gradient(to right, transparent, #D4AF37);
+        }
+        .section-title-deco::after {
+            background: linear-gradient(to left, transparent, #D4AF37);
+        }
+
+        /* Team cards */
+        .team-scroll {
+            overflow: visible;
+            padding-bottom: 0.5rem;
+            scroll-behavior: auto;
+            cursor: default;
+        }
+        .team-track {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+            min-width: 0;
+            padding: 0.25rem 0.1rem 0.75rem;
+        }
+        .team-card {
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            flex: 0 0 auto;
+            min-width: 0;
+            border: 1px solid rgba(212, 175, 55, 0.18);
+            border-radius: 1.2rem;
+            background: rgba(255, 255, 255, 0.55);
+            box-shadow: 0 16px 40px rgba(28, 4, 4, 0.1);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+        .team-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(212, 175, 55, 0.6);
+            box-shadow: 0 24px 48px rgba(28, 4, 4, 0.16);
+        }
+        .team-portrait {
+            position: relative;
+            min-height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #3D0C0D 0%, #5C1213 48%, #A1781E 100%);
+        }
+        .team-portrait::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top left, rgba(212, 175, 55, 0.28), transparent 38%);
+            pointer-events: none;
+        }
+        .team-initials {
+            position: relative;
+            width: 96px;
+            height: 96px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(212, 175, 55, 0.7);
+            background: rgba(242, 235, 220, 0.95);
+            color: #3D0C0D;
+            font-family: 'Cinzel', serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.16);
+        }
+        .team-link {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            color: inherit;
+            text-decoration: none;
+        }
+        .team-info {
+            background: linear-gradient(180deg, #F9F4E8 0%, #F2EBDC 100%);
+            padding: 1.1rem 1rem 1.2rem;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .team-info .role {
+            color: #8A5A0E;
+            font-family: 'Cinzel', serif;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            line-height: 1.4;
+            text-transform: uppercase;
+            margin-bottom: 0.35rem;
+            max-width: 100%;
+            white-space: normal;
+            overflow-wrap: anywhere;
+        }
+        .team-info .name {
+            color: #3D0C0D;
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            line-height: 1.35;
+            margin-bottom: 0.45rem;
+            max-width: 100%;
+            white-space: normal;
+            overflow-wrap: anywhere;
+        }
+        .team-social {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 0.35rem;
+            color: rgba(61, 12, 13, 0.55);
+            font-size: 0.7rem;
+        }
+        .team-social a:hover {
+            color: #D4AF37;
+        }
+
+        /* Footer skyline */
+        .footer-skyline {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 200px;
+            height: 80px;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+        .footer-bg {
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 100%, rgba(212, 175, 55, 0.06) 0%, transparent 55%),
+                linear-gradient(180deg, #3D0C0D 0%, #1C0404 100%);
+        }
+
+        /* Encümen modal */
+        .encumen-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+        .encumen-modal.is-open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .encumen-modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(12, 2, 2, 0.82);
+            backdrop-filter: blur(4px);
+        }
+        .encumen-modal-panel {
+            position: relative;
+            width: 100%;
+            max-width: 720px;
+            max-height: 85vh;
+            overflow-y: auto;
+            background: linear-gradient(180deg, #3D0C0D 0%, #2A0809 100%);
+            border: 1px solid rgba(212, 175, 55, 0.45);
+            padding: 2rem;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+        }
+        .encumen-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: #D4AF37;
+            font-size: 1.25rem;
+            line-height: 1;
+            padding: 0.25rem;
+            transition: color 0.2s ease;
+        }
+        .encumen-modal-close:hover {
+            color: #E8C96A;
+        }
+        .encumen-topic {
+            border-left: 2px solid rgba(212, 175, 55, 0.5);
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .encumen-topic:last-child {
+            margin-bottom: 0;
+        }
+        .encumen-topic h4 {
+            font-family: 'Cinzel', serif;
+            color: #D4AF37;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+        }
+        .encumen-topic p {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 1rem;
+            line-height: 1.65;
+            text-align: justify;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1C0404; }
+        ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="bg-[#3D0C0D]/90 border-b border-gold/20 sticky top-0 z-50 px-6 py-3 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-4">
+            <a href="#anasayfa" class="flex items-center gap-3">
+                <img src="görseller/logo.png" alt="Gazi Meclis-i Mebusan Logo" class="w-11 h-11 object-contain logo-gold">
+                <div>
+                    <p class="font-title font-bold text-sm tracking-wider text-gold leading-tight">GAZİ</p>
+                    <p class="font-title text-[0.65rem] tracking-[0.2em] text-white/80">MECLİS-İ MEBUSAN</p>
+                </div>
+            </a>
+
+            <nav class="flex flex-wrap justify-center gap-5 lg:gap-7 text-[0.7rem] font-title font-semibold tracking-wider">
+                <a href="#anasayfa" class="text-gold border-b border-gold pb-0.5">ANA SAYFA</a>
+                <a href="#hakkimizda" class="text-white/70 hover:text-gold transition">HAKKIMIZDA</a>
+                <a href="#encumenler" class="text-white/70 hover:text-gold transition">ENCÜMENLER</a>
+                <a href="#ekibimiz" class="text-white/70 hover:text-gold transition">EKİBİMİZ</a>
+                <a href="#iletisim" class="text-white/70 hover:text-gold transition">İLETİŞİM</a>
+            </nav>
+
+            <a href="basvuru.html" class="btn-outline-gold">BAŞVURU YAP</a>
+        </div>
+    </header>
+
+    <!-- scroll-decoration removed per user request -->
+    <main>
+        <!-- HERO -->
+        <section id="anasayfa" class="hero-section reveal reveal--zoom flex items-center justify-center" data-reveal-stagger="90">
+            <div class="hero-bg"></div>
+
+            <div class="hero-content relative z-10 max-w-4xl mx-auto px-6 py-24 text-center">
+                <img src="görseller/logo.png" alt="Gazi Meclis-i Mebusan" class="w-24 h-24 mx-auto object-contain logo-gold mb-6 reveal-item">
+
+                <h1 class="font-title text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-[0.15em] text-white leading-tight reveal-item">
+                    GAZİ MECLİS-İ MEBUSAN
+                </h1>
+
+                <p class="font-title text-sm md:text-base text-gold tracking-[0.25em] mt-5 uppercase reveal-item">
+                    Geçmişini Bilen, Geleceğini Yazan Nesil
+                </p>
+
+                <div class="mt-10">
+                    <a href="basvuru.html" class="btn-hero reveal-item">
+                        BAŞVURU YAP <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- HAKKIMIZDA (excerpt + full page link) -->
+        <section id="hakkimizda" class="parchment-bg reveal text-[#2a0e0e] py-20 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-6">
+                    <h2 class="font-title text-3xl md:text-4xl font-bold tracking-[0.1em] text-[#3D0C0D]">GAZİ Meclis-i Mebusan</h2>
+                    <p class="italic text-sm text-[#4a3828] mt-2">"Mâzisini bilen, istikbâlini inşa eden nesil."</p>
+                </div>
+
+                <div class="max-w-4xl mx-auto prose text-justify text-[#4a3828]">
+                    <p>Milletlerin istikbâli, yalnızca bugünün meselelerini konuşmakla değil; mazisini idrak ederek, devlet geleneğini anlayarak ve köklü medeniyet mirasını geleceğe taşıyarak inşa edilir. GAZİ Meclis-i Mebusan, işte bu şuur ve mesuliyetle tesis edilmiş; gençlerin tarih, siyaset, diplomasi ve devlet idaresi alanlarında kendilerini inkişaf ettirmelerini hedefleyen mümtaz bir meclis simülasyonudur.</p>
+
+                    <p>Osmanlı Devleti'nin asırlar boyunca teşekkül ettirdiği devlet anlayışı; adalet, meşveret, liyakat ve istişare esasları üzerine bina edilmiştir. Bu kadim mirasın en mühim tezahürlerinden biri olan Meclis-i Mebusan, yalnızca kanunların müzakere edildiği bir makam değil; millet iradesinin temsil edildiği, fikirlerin serbestçe beyan edildiği ve devlet meselelerinin hikmetle ele alındığı mühim bir müesseseydi.</p>
+
+                    <p>GAZİ Meclis-i Mebusan, bu tarihî ruhu günümüz gençliğiyle buluşturmayı gaye edinmektedir. Katılımcılar yalnızca bir simülasyona iştirak etmez; aynı zamanda bir mebusun mesuliyetini, bir devlet adamının vakarını ve bir münevverin fikir dünyasını tecrübe ederler. Her encümen, devlet idaresinin farklı bir sahasını temsil ederken; her müzakere, fikirlerin olgunlaşmasına ve katılımcıların hitabet, muhakeme ve liderlik kabiliyetlerinin inkişafına vesile olur.</p>
+
+                    <p>Program süresince iştirakçiler, Osmanlı Devleti'nin son dönem siyasi atmosferini tarihî gerçeklik çerçevesinde tecrübe ederler. Hariciye'den Harbiye'ye, Maarif'ten Adliye'ye kadar uzanan encümenlerde devlet meseleleri müzakere edilir; diplomatik krizler değerlendirilir, kanun layihaları hazırlanır ve memleketin selameti için fikirler serdedilir.</p>
+                </div>
+
+                <div class="mt-8 text-center">
+                    <a href="hakkimizda-full.html" class="btn-outline-gold">Devamını Oku</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ENCÜMENLER -->
+        <section id="encumenler" class="section-dark reveal py-20 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-12">
+                    <div class="section-title-deco">
+                        <h2 class="font-title text-3xl md:text-4xl font-bold tracking-[0.2em] text-gold">ENCÜMENLER</h2>
+                    </div>
+                    <p class="text-white/50 text-sm mt-4">Konuları görmek için bir encümene tıklayın</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <button type="button" class="encumen-card reveal-item" data-encumen="adliye">
+                        <span class="corner-tr"></span><span class="corner-bl"></span>
+                        <h3 class="font-title text-sm font-bold text-gold uppercase tracking-wider mb-1">1. Adliye Encümeni</h3>
+                        <p class="text-xs text-gold/70 uppercase tracking-wider mb-3">Hukuk</p>
+                        <p class="text-sm text-white/60">3 tartışma konusu</p>
+                    </button>
+                    <button type="button" class="encumen-card reveal-item" data-encumen="hariciye">
+                        <span class="corner-tr"></span><span class="corner-bl"></span>
+                        <h3 class="font-title text-sm font-bold text-gold uppercase tracking-wider mb-1">2. Hariciye Encümeni</h3>
+                        <p class="text-xs text-gold/70 uppercase tracking-wider mb-3">Dış Politika</p>
+                        <p class="text-sm text-white/60">3 tartışma konusu</p>
+                    </button>
+                    <button type="button" class="encumen-card reveal-item" data-encumen="dahiliye">
+                        <span class="corner-tr"></span><span class="corner-bl"></span>
+                        <h3 class="font-title text-sm font-bold text-gold uppercase tracking-wider mb-1">3. Dahiliye Encümeni</h3>
+                        <p class="text-xs text-gold/70 uppercase tracking-wider mb-3">İçişleri</p>
+                        <p class="text-sm text-white/60">3 tartışma konusu</p>
+                    </button>
+                    <button type="button" class="encumen-card reveal-item" data-encumen="maarif">
+                        <span class="corner-tr"></span><span class="corner-bl"></span>
+                        <h3 class="font-title text-sm font-bold text-gold uppercase tracking-wider mb-1">4. Maarif Encümeni</h3>
+                        <p class="text-xs text-gold/70 uppercase tracking-wider mb-3">Eğitim</p>
+                        <p class="text-sm text-white/60">3 tartışma konusu</p>
+                    </button>
+                    <button type="button" class="encumen-card reveal-item" data-encumen="harbiye">
+                        <span class="corner-tr"></span><span class="corner-bl"></span>
+                        <h3 class="font-title text-sm font-bold text-gold uppercase tracking-wider mb-1">5. Harbiye Encümeni</h3>
+                        <p class="text-xs text-gold/70 uppercase tracking-wider mb-3">Milli Savunma</p>
+                        <p class="text-sm text-white/60">3 tartışma konusu</p>
+                    </button>
+                    <button type="button" class="encumen-card reveal-item" data-encumen="nafia">
+                        <span class="corner-tr"></span><span class="corner-bl"></span>
+                        <h3 class="font-title text-sm font-bold text-gold uppercase tracking-wider mb-1">6. Nafia Encümeni</h3>
+                        <p class="text-xs text-gold/70 uppercase tracking-wider mb-3">Altyapı</p>
+                        <p class="text-sm text-white/60">3 tartışma konusu</p>
+                    </button>
+                    <button type="button" class="encumen-card reveal-item" data-encumen="maliye">
+                        <span class="corner-tr"></span><span class="corner-bl"></span>
+                        <h3 class="font-title text-sm font-bold text-gold uppercase tracking-wider mb-1">7. Maliye Encümeni</h3>
+                        <p class="text-xs text-gold/70 uppercase tracking-wider mb-3">Maliye</p>
+                        <p class="text-sm text-white/60">3 tartışma konusu</p>
+                    </button>
+                    <button type="button" class="encumen-card reveal-item" data-encumen="sihhiye">
+                        <span class="corner-tr"></span><span class="corner-bl"></span>
+                        <h3 class="font-title text-sm font-bold text-gold uppercase tracking-wider mb-1">8. Sıhhiye ve Muavenet-i İçtimaiye Encümeni</h3>
+                        <p class="text-xs text-gold/70 uppercase tracking-wider mb-3">Sağlık & Sosyal Yardım</p>
+                        <p class="text-sm text-white/60">3 tartışma konusu</p>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- EKİBİMİZ -->
+        <section id="ekibimiz" class="parchment-bg py-20 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="font-title text-3xl md:text-4xl font-bold tracking-[0.2em] text-[#3D0C0D]">EKİBİMİZ</h2>
+                    <div class="mx-auto mt-3 h-[1px] w-20 bg-gold"></div>
+                </div>
+
+                <div class="team-scroll">
+                    <div class="team-track">
+                        <div class="team-card">
+                            <a href="yavuz.html" class="team-link" title="Yavuz Selim Terzi — Profil">
+                                <div class="team-portrait">
+                                    <div class="team-initials">YST</div>
+                                </div>
+                                <div class="team-info">
+                                    <p class="role">Genel Koordinatör</p>
+                                    <p class="name">Yavuz Selim Terzi</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="team-card">
+                            <div class="team-portrait">
+                                <div class="team-initials">ÖTT</div>
+                            </div>
+                            <div class="team-info">
+                                <p class="role">Genel Koordinatör Yardımcısı</p>
+                                <p class="name">Ömer Talha Terzi</p>
+                            </div>
+                        </div>
+                        <div class="team-card">
+                            <div class="team-portrait">
+                                <div class="team-initials">ÖAS</div>
+                            </div>
+                            <div class="team-info">
+                                <p class="role">Organizasyon Başkanı</p>
+                                <p class="name">Ömer Asaf Solakoğlu</p>
+                            </div>
+                        </div>
+                        <div class="team-card">
+                            <div class="team-portrait">
+                                <div class="team-initials">ÖT</div>
+                            </div>
+                            <div class="team-info">
+                                <p class="role">Akademi Başkanı</p>
+                                <p class="name">Ömer Tan</p>
+                            </div>
+                        </div>
+                        <div class="team-card">
+                            <div class="team-portrait">
+                                <div class="team-initials">HÜK</div>
+                            </div>
+                            <div class="team-info">
+                                <p class="role">Halk ile İlişkiler</p>
+                                <p class="name">Hakan Ünsal Kıraç</p>
+                            </div>
+                        </div>
+                        <div class="team-card">
+                            <div class="team-portrait">
+                                <div class="team-initials">KN</div>
+                            </div>
+                            <div class="team-info">
+                                <p class="role">Lojistik Başkanı</p>
+                                <p class="name">Kerem Nalcıoğlu</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="iletisim" class="footer-bg reveal border-t border-gold/15 pt-14 pb-6 px-6 text-sm relative overflow-hidden">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
+            <div class="space-y-3">
+                <div class="flex items-center gap-3">
+                    <img src="görseller/logo.png" alt="Logo" class="w-10 h-10 object-contain logo-gold">
+                    <div>
+                        <p class="font-title font-bold text-gold text-sm tracking-wide">GAZİ</p>
+                        <p class="font-title text-[0.6rem] tracking-[0.15em] text-white/70">MECLİS-İ MEBUSAN</p>
+                    </div>
+                </div>
+                <p class="text-xs text-white/50 italic">"Geçmişini Bilen, Geleceğini Yazan Nesil"</p>
+            </div>
+
+            <div>
+                <h4 class="font-title text-gold font-bold mb-4 tracking-wider text-xs uppercase">Hızlı Erişim</h4>
+                <ul class="space-y-2 text-white/50 text-xs">
+                    <li><a href="#anasayfa" class="hover:text-gold transition">Ana Sayfa</a></li>
+                    <li><a href="#hakkimizda" class="hover:text-gold transition">Hakkımızda</a></li>
+                    <li><a href="#encumenler" class="hover:text-gold transition">Encümenler</a></li>
+                    <li><a href="#ekibimiz" class="hover:text-gold transition">Ekibimiz</a></li>
+                    <li><a href="#iletisim" class="hover:text-gold transition">İletişim</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-title text-gold font-bold mb-4 tracking-wider text-xs uppercase">İletişim</h4>
+                <ul class="space-y-2 text-white/50 text-xs">
+                    <li>
+                        <a href="mailto:gazimeclis25@gmail.com" class="hover:text-gold transition">
+                            <i class="fa-solid fa-envelope text-gold mr-2"></i> gazimeclis25@gmail.com
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-title text-gold font-bold mb-4 tracking-wider text-xs uppercase">Sosyal Medya</h4>
+                <div class="flex gap-4 text-lg text-white/50">
+                    <a href="https://www.instagram.com/gazimeclis26/" target="_blank" rel="noopener noreferrer" class="hover:text-gold transition" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skyline decoration -->
+        <svg class="footer-skyline" viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M0 80 L0 50 L15 50 L15 35 L25 35 L25 50 L40 50 L40 25 L55 25 L55 10 L65 10 L65 25 L80 25 L80 45 L95 45 L95 30 L110 30 L110 50 L125 50 L125 20 L140 20 L140 40 L155 40 L155 55 L170 55 L170 35 L185 35 L185 50 L200 50 L200 80 Z" fill="#D4AF37"/>
+        </svg>
+
+        <div class="max-w-7xl mx-auto border-t border-gold/10 pt-5 text-center text-xs text-white/40">
+            <p>© 2026 GAZİ Meclis-i Mebusan. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- ENCÜMEN MODAL -->
+    <div id="encumen-modal" class="encumen-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="encumen-modal-title">
+        <div class="encumen-modal-backdrop" data-close-modal></div>
+        <div class="encumen-modal-panel">
+            <button type="button" class="encumen-modal-close" data-close-modal aria-label="Kapat">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <p id="encumen-modal-subtitle" class="text-xs uppercase tracking-[0.2em] text-gold/70 font-title mb-2"></p>
+            <h3 id="encumen-modal-title" class="font-title text-xl md:text-2xl font-bold text-gold uppercase tracking-wider mb-6 pr-8"></h3>
+            <div id="encumen-modal-topics"></div>
+        </div>
+    </div>
+
+    <script>
+        const encumenData = {
+            adliye: {
+                title: '1. Adliye Encümeni',
+                subtitle: 'Hukuk',
+                topics: [
+                    {
+                        title: '1. "Kanun-i Esasi\'nin Yetkileri ve Padişahın Meşrutiyet İçindeki Konumu"',
+                        desc: 'II. Meşrutiyet sonrası padişahın yetkilerinin sınırlandırılması ve meclisin güçlendirilmesi büyük anayasal krizlere yol açmaktadır. Bazı vekiller tam parlamenter sisteme geçişi savunurken bazıları güçlü padişahlığın devletin devamı için zorunlu olduğunu düşünmektedir.'
+                    },
+                    {
+                        title: '2. "Şer\'i Hukuk ile Avrupa Tarzı Modern Hukuk Arasındaki Çatışma"',
+                        desc: 'Osmanlı hukuk sisteminin modernleştirilmesi amacıyla Avrupa\'dan alınan yasalar toplumun geleneksel yapısıyla çatışmaktadır. Hukuk sisteminin tamamen modernleştirilmesi mi yoksa İslam hukukunun korunması mı gerektiği büyük ideolojik mücadele yaratmaktadır.'
+                    },
+                    {
+                        title: '3. "Siyasi Muhalefet, Basın Davaları ve Devlet Güvenliği Gerekçesiyle Yargı Yetkileri"',
+                        desc: 'Muhalif gazeteciler ve siyasetçilere yönelik davalar mecliste sert tartışmalara neden olmaktadır. Devlet güvenliği adına özgürlüklerin sınırlandırılması meşru görülürken bunun baskıcı yönetime dönüşeceği yönünde ciddi eleştiriler bulunmaktadır.'
+                    }
+                ]
+            },
+            hariciye: {
+                title: '2. Hariciye Encümeni',
+                subtitle: 'Dış Politika',
+                topics: [
+                    {
+                        title: '1. "Osmanlı Devleti\'nin Avrupa\'daki Bloklaşma Karşısında İttifak Politikası: İngiltere mi Almanya mı?"',
+                        desc: 'Avrupa\'da İngiltere, Fransa ve Rusya arasında oluşan İtilaf Bloğu ile Almanya merkezli İttifak Bloğu arasında büyük bir güç mücadelesi yaşanmaktadır. Osmanlı Devleti\'nin hangi tarafa yaklaşacağı konusunda meclis derin şekilde bölünmüştür. Bazıları Almanya\'nın Osmanlı\'yı ayakta tutacağını savunurken diğerleri Alman yakınlaşmasının devleti felakete sürükleyeceğini düşünmektedir.'
+                    },
+                    {
+                        title: '2. "Osmanlı Devleti\'nin Balkanlar\'daki Çözülüşü ve Kaybedilen Topraklar Sonrası Yeni Dış Politika Arayışı"',
+                        desc: 'Balkan Savaşları sonucunda büyük toprak kayıpları yaşayan Osmanlı Devleti\'nin dış politikada nasıl bir yön izleyeceği tartışılmaktadır. İmparatorluğun Balkan milletleriyle yeniden uzlaşma arayışı mı yoksa sert revizyonist politika mı izlemesi gerektiği ciddi fikir ayrılıkları doğurmaktadır.'
+                    },
+                    {
+                        title: '3. "Kapitülasyonlar ve Avrupa Devletlerinin Osmanlı İç İşlerine Müdahalesi"',
+                        desc: 'Avrupalı devletlerin ekonomik ve hukuki ayrıcalıkları devlet egemenliğini ciddi biçimde zedelemektedir. Kapitülasyonların kaldırılması gerektiğini savunanlarla ekonomik çöküş korkusuyla bunun mümkün olmadığını düşünenler arasında büyük bir çatışma yaşanmaktadır.'
+                    }
+                ]
+            },
+            dahiliye: {
+                title: '3. Dahiliye Encümeni',
+                subtitle: 'İçişleri',
+                topics: [
+                    {
+                        title: '1. "İttihat ve Terakki Yönetiminin Merkezîleşme Politikaları ve Muhalefetin Bastırılması"',
+                        desc: 'Devletin dağılmasını önlemek amacıyla merkezî yönetimin güçlendirilmesi savunulmaktadır. Ancak muhalif gazetelerin kapatılması, siyasi baskılar ve olağanüstü yetkiler bazı vekiller tarafından anayasal düzene tehdit olarak görülmektedir.'
+                    },
+                    {
+                        title: '2. "Balkan Savaşları Sonrası Anadolu\'daki Göç ve Güvenlik Krizi"',
+                        desc: 'Balkanlardan gelen yoğun muhacir nüfusu Anadolu\'daki ekonomik düzeni ve toplumsal yapıyı değiştirmektedir. Göçmenlerin yerleştirilmesi, asayiş sorunları ve yerel halkla yaşanan gerilimler devletin iç güvenlik politikalarını tartışmalı hale getirmektedir.'
+                    },
+                    {
+                        title: '3. "Aşiret Yapıları, Yerel Güçler ve Devlet Otoritesinin Anadolu\'da Yeniden Tesisi"',
+                        desc: 'Özellikle Doğu ve Güneydoğu bölgelerinde aşiretlerin devlet otoritesinden bağımsız hareket etmesi merkezi yönetimi zorlamaktadır. Devletin sert müdahalesi mi yoksa uzlaşmacı yöntemler mi kullanması gerektiği yoğun tartışma yaratmaktadır.'
+                    }
+                ]
+            },
+            maarif: {
+                title: '4. Maarif Encümeni',
+                subtitle: 'Eğitim',
+                topics: [
+                    {
+                        title: '1. "Osmanlı Eğitim Sisteminin Modernleşmesi ve Medreselerin Geleceği"',
+                        desc: 'Avrupa karşısında geri kalındığı düşüncesi eğitim reformlarını zorunlu hale getirmiştir. Modern okulların yaygınlaştırılması desteklenirken medreselerin kapatılması veya etkisinin azaltılması toplumun muhafazakâr kesimlerinde büyük tepki doğurmaktadır.'
+                    },
+                    {
+                        title: '2. "Osmanlıcılık, Türkçülük ve İslamcılık Arasında Yeni Neslin Hangi Kimlikle Yetiştirileceği"',
+                        desc: 'Devletin dağılmasını önlemek amacıyla eğitim sisteminin hangi ideoloji temelinde şekilleneceği büyük tartışma yaratmaktadır. Ortak Osmanlı kimliği mi, Türk milliyetçiliği mi yoksa ümmet anlayışı mı devletin geleceğini kurtaracaktır sorusu yoğun şekilde tartışılmaktadır.'
+                    },
+                    {
+                        title: '3. "Yabancı ve Azınlık Okullarının Osmanlı Toplum Yapısı Üzerindeki Etkileri"',
+                        desc: 'Azınlık ve yabancı okullarının milliyetçi hareketleri güçlendirdiği düşünülmektedir. Devletin bu okulları sıkı denetime alması mı yoksa eğitim özgürlüğünü koruması mı gerektiği konusunda sert görüş ayrılıkları vardır.'
+                    }
+                ]
+            },
+            harbiye: {
+                title: '5. Harbiye Encümeni',
+                subtitle: 'Milli Savunma',
+                topics: [
+                    {
+                        title: '1. "Osmanlı Devleti\'nin Yaklaşan Büyük Avrupa Harbi Karşısında Uygulayacağı Askerî Strateji ve Seferberlik Politikası"',
+                        desc: 'Avrupa\'da hızla büyüyen bloklaşma ve silahlanma yarışı Osmanlı Devleti\'ni ciddi bir güvenlik krizine sürüklemektedir. Balkan Savaşları\'nın yaraları henüz sarılmamışken ordunun yeniden yapılandırılması, zorunlu askerlik uygulamaları, cephe hazırlıkları ve devletin savaşa girip girmemesi büyük tartışmalara yol açmaktadır. Bazı vekiller tarafsızlığın korunmasını savunurken bazıları yaklaşan savaşın Osmanlı için kaybedilen toprakları geri alma fırsatı olduğunu ileri sürmektedir.'
+                    },
+                    {
+                        title: '2. "Alman Askerî Heyetlerinin Osmanlı Ordusu Üzerindeki Etkisi ve Devletin Egemenlik Meselesi"',
+                        desc: 'Osmanlı ordusunun modernleşmesi amacıyla Alman subaylarının yönetime dahil edilmesi mecliste büyük kriz yaratmaktadır. Bir taraf Alman disiplininin orduyu kurtaracağını düşünürken diğer taraf devletin askerî bağımsızlığının yabancı güçlere teslim edildiğini savunmaktadır. Tartışma yalnızca askerî değil aynı zamanda siyasi bağımsızlık meselesine dönüşmektedir.'
+                    },
+                    {
+                        title: '3. "Balkan Savaşları Sonrası Ordu İçindeki İttihatçı Kadrolaşma ve Askerin Siyasetteki Rolü"',
+                        desc: 'Ordunun doğrudan siyaset üzerinde etkili olması gerektiğini savunanlarla askerin tamamen siyasetten çekilmesini isteyenler arasında büyük bir mücadele yaşanmaktadır. İttihat ve Terakki\'nin ordu üzerindeki etkisi, muhalif subayların tasfiyesi ve devlet yönetiminde asker kökenli kadroların ağırlığı yoğun tartışma yaratmaktadır.'
+                    }
+                ]
+            },
+            nafia: {
+                title: '6. Nafia Encümeni',
+                subtitle: 'Altyapı',
+                topics: [
+                    {
+                        title: '1. "Bağdat Demiryolu Projesi ve Osmanlı Üzerindeki Alman Nüfuzu"',
+                        desc: 'Bağdat Demiryolu hattının ekonomik kalkınma sağlayacağı düşünülmektedir. Ancak hattın Alman sermayesiyle yapılması Osmanlı\'nın ekonomik bağımsızlığını kaybedeceği endişesine yol açmaktadır. Proje aynı zamanda İngiltere ve Rusya\'yla diplomatik gerilim yaratmaktadır.'
+                    },
+                    {
+                        title: '2. "İmparatorluğun Sanayi ve Ulaşım Altyapısının Yabancı Şirketlere Bağımlılığı"',
+                        desc: 'Limanlar, demiryolları ve madenlerin yabancı şirketler tarafından işletilmesi ekonomik egemenlik tartışmalarını büyütmektedir. Devletin millîleştirme politikası uygulayıp uygulamaması büyük bir kriz konusu haline gelmiştir.'
+                    },
+                    {
+                        title: '3. "İstanbul\'un Modernleştirilmesi ve Geleneksel Şehir Yapısının Korunması Meselesi"',
+                        desc: 'Başkentte modern şehircilik projeleri gündeme gelirken tarihi ve dini dokunun zarar göreceği yönünde tepkiler yükselmektedir. Batılı şehir modeli ile Osmanlı şehir kültürü arasında büyük bir çatışma yaşanmaktadır.'
+                    }
+                ]
+            },
+            maliye: {
+                title: '7. Maliye Encümeni',
+                subtitle: 'Maliye',
+                topics: [
+                    {
+                        title: '1. Osmanlı Devleti\'nin Düyûn-ı Umûmiye İdaresi karşısında mali egemenliğinin yeniden tesis edilmesi',
+                        desc: '1881 tarihli Muharrem Kararnamesi ile kurulan Düyûn-ı Umûmiye İdaresi, Osmanlı Devleti\'nin birçok gelir kaynağını doğrudan denetlemektedir. Bu durum devletin ekonomik bağımsızlığını zedelemekte, bütçe planlamasını zorlaştırmaktadır.'
+                    },
+                    {
+                        title: '2. Balkan Harpleri sonrasında oluşan bütçe açığının kapatılması ve savaş ekonomisinin yönetilmesi',
+                        desc: '1912-1913 Balkan Harpleri sonrasında Osmanlı Devleti büyük miktarda askerî harcama yapmak zorunda kalmış, aynı zamanda önemli vergi bölgelerini kaybetmiştir.'
+                    },
+                    {
+                        title: '3. Kapitülasyonlar ve yabancı sermaye karşısında millî sanayinin korunmasına yönelik mali teşvik politikalarının belirlenmesi',
+                        desc: 'Yabancı şirketler Osmanlı pazarında büyük avantajlara sahiptir. Yerli üretici ise rekabet etmekte zorlanmaktadır.'
+                    }
+                ]
+            },
+            sihhiye: {
+                title: '8. Sıhhiye ve Muavenet-i İçtimaiye Encümeni',
+                subtitle: 'Sağlık & Sosyal Yardım',
+                topics: [
+                    {
+                        title: '1. Balkan Harpleri sonrasında muhacirlerin iskânı, salgın hastalıkların önlenmesi ve sosyal yardım teşkilatının yeniden yapılandırılması',
+                        desc: 'Balkan Harpleri sonrasında yüz binlerce muhacir Anadolu\'ya göç etmiş, barınma, sağlık ve iaşe sorunları ciddi boyutlara ulaşmıştır.'
+                    },
+                    {
+                        title: '2. Osmanlı Devleti\'nde karantina teşkilatının modernleştirilmesi ve uluslararası sağlık standartlarının uygulanması',
+                        desc: 'Liman şehirlerinde görülen kolera ve veba salgınları hem halk sağlığını hem de uluslararası ticareti tehdit etmektedir.'
+                    },
+                    {
+                        title: '3. Osmanlı Devleti\'nde modern sağlık teşkilatının kurulması ve taşrada sağlık hizmetlerinin yaygınlaştırılması',
+                        desc: 'İstanbul dışında birçok vilayette yeterli hastane, doktor ve sağlık personeli bulunmamaktadır. Encümen, modern ve sürdürülebilir bir sağlık sistemi kurulmasını ele alacaktır.'
+                    }
+                ]
+            }
+        };
+
+        const modal = document.getElementById('encumen-modal');
+        const modalTitle = document.getElementById('encumen-modal-title');
+        const modalSubtitle = document.getElementById('encumen-modal-subtitle');
+        const modalTopics = document.getElementById('encumen-modal-topics');
+
+        function openEncumenModal(key) {
+            const data = encumenData[key];
+            if (!data) return;
+
+            modalTitle.textContent = data.title;
+            modalSubtitle.textContent = data.subtitle;
+            modalTopics.innerHTML = data.topics.map(topic => `
+                <article class="encumen-topic">
+                    <h4>${topic.title}</h4>
+                    <p>${topic.desc}</p>
+                </article>
+            `).join('');
+
+            modal.classList.add('is-open');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeEncumenModal() {
+            modal.classList.remove('is-open');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        document.querySelectorAll('[data-encumen]').forEach(card => {
+            card.addEventListener('click', () => openEncumenModal(card.dataset.encumen));
+        });
+
+        document.querySelectorAll('[data-close-modal]').forEach(el => {
+            el.addEventListener('click', closeEncumenModal);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+                closeEncumenModal();
+            }
+        });
+
+        // Enhanced smooth scrolling for wheel/trackpad: interpolated easing animation
+        (function(){
+            const ease = 0.22;
+            let current = window.scrollY;
+            let target = current;
+            let ticking = false;
+            const maxScroll = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+
+            function rafLoop(){
+                current += (target - current) * ease;
+                if (Math.abs(target - current) < 0.5) current = target;
+                window.scrollTo(0, Math.round(current));
+                if (Math.abs(target - current) > 0.5) {
+                    requestAnimationFrame(rafLoop);
+                } else {
+                    ticking = false;
+                }
+            }
+
+            window.addEventListener('wheel', function(e){
+                e.preventDefault();
+                // stronger amplification for downward scroll
+                const multiplier = e.deltaY > 0 ? 2.8 : 1.0;
+                const delta = e.deltaY * multiplier;
+                target += delta;
+                if (target < 0) target = 0;
+                if (target > maxScroll()) target = maxScroll();
+                if (!ticking) {
+                    ticking = true;
+                    requestAnimationFrame(rafLoop);
+                }
+            }, { passive: false });
+
+            // Keyboard navigation support
+            window.addEventListener('keydown', function(e){
+                const step = window.innerHeight * 1.1;
+                if (['ArrowDown','PageDown','ArrowUp','PageUp','Home','End',' '].includes(e.key)) {
+                    if (e.key === 'ArrowDown') target = Math.min(maxScroll(), target + 80);
+                    else if (e.key === 'ArrowUp') target = Math.max(0, target - 80);
+                    else if (e.key === 'PageDown' || e.key === ' ') target = Math.min(maxScroll(), target + step);
+                    else if (e.key === 'PageUp') target = Math.max(0, target - step);
+                    else if (e.key === 'Home') target = 0;
+                    else if (e.key === 'End') target = maxScroll();
+                    if (!ticking) {
+                        ticking = true;
+                        requestAnimationFrame(rafLoop);
+                    }
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            // Keep in sync when other code scrolls or on resize
+            window.addEventListener('resize', ()=> { current = window.scrollY; target = current; });
+            window.addEventListener('scroll', ()=> { if (Math.abs(window.scrollY - target) > 100) { target = window.scrollY; current = window.scrollY; } });
+        })();
+
+        // Reveal-on-scroll using IntersectionObserver
+        (function(){
+            const revealEls = document.querySelectorAll('.reveal');
+            if (!('IntersectionObserver' in window) || revealEls.length === 0) {
+                // fallback: show all
+                revealEls.forEach(el => el.classList.add('in-view'));
+                return;
+            }
+
+            const io = new IntersectionObserver((entries)=>{
+                entries.forEach(entry=>{
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        // read optional data attributes for stagger/duration
+                        const stagger = parseInt(el.dataset.revealStagger) || parseInt(getComputedStyle(document.documentElement).getPropertyValue('--reveal-stagger')) || 70;
+                        const childDur = el.dataset.revealChildDur || null;
+                        const baseDelay = parseInt(el.dataset.revealDelay) || 40;
+
+                        // apply staggered delays to children with .reveal-item or direct children
+                        const children = el.querySelectorAll('.reveal-item');
+                        if (children.length === 0) {
+                            // fallback to direct children
+                            Array.from(el.children).forEach((ch, i) => {
+                                ch.style.transitionDelay = `${baseDelay + i * stagger}ms`;
+                                if (childDur) ch.style.transitionDuration = `${childDur}ms`;
+                            });
+                        } else {
+                            children.forEach((ch, i) => {
+                                ch.style.transitionDelay = `${baseDelay + i * stagger}ms`;
+                                if (childDur) ch.style.transitionDuration = `${childDur}ms`;
+                            });
+                        }
+
+                        el.classList.add('in-view');
+                        // once revealed, unobserve to avoid re-triggering
+                        io.unobserve(el);
+                    }
+                });
+            }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
+
+            revealEls.forEach(el=> io.observe(el));
+        })();
+    </script>
+
+</body>
+</html>
