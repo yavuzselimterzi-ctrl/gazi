@@ -946,26 +946,105 @@
         <!-- HAKKIMIZDA (excerpt + full page link) -->
         <section id="hakkimizda" class="parchment-bg reveal text-[#2a0e0e] py-20 px-6">
             <div class="max-w-7xl mx-auto">
-                <div class="text-center mb-6">
+                <div class="text-center mb-10">
                     <h2 class="font-title text-3xl md:text-4xl font-bold tracking-[0.1em] text-[#3D0C0D]">GAZİ Meclis-i Mebusan</h2>
                     <p class="italic text-sm text-[#4a3828] mt-2">"Mâzisini bilen, istikbâlini inşa eden nesil."</p>
                 </div>
 
-                <div class="max-w-4xl mx-auto prose text-justify text-[#4a3828]">
-                    <p>Milletlerin istikbâli, yalnızca bugünün meselelerini konuşmakla değil; mazisini idrak ederek, devlet geleneğini anlayarak ve köklü medeniyet mirasını geleceğe taşıyarak inşa edilir. GAZİ Meclis-i Mebusan, işte bu şuur ve mesuliyetle tesis edilmiş; gençlerin tarih, siyaset, diplomasi ve devlet idaresi alanlarında kendilerini inkişaf ettirmelerini hedefleyen mümtaz bir meclis simülasyonudur.</p>
+                <!-- Two-column layout: text left, image right -->
+                <div class="flex flex-col lg:flex-row gap-12 items-center">
 
-                    <p>Osmanlı Devleti'nin asırlar boyunca teşekkül ettirdiği devlet anlayışı; adalet, meşveret, liyakat ve istişare esasları üzerine bina edilmiştir. Bu kadim mirasın en mühim tezahürlerinden biri olan Meclis-i Mebusan, yalnızca kanunların müzakere edildiği bir makam değil; millet iradesinin temsil edildiği, fikirlerin serbestçe beyan edildiği ve devlet meselelerinin hikmetle ele alındığı mühim bir müesseseydi.</p>
+                    <!-- Text column -->
+                    <div class="flex-1 prose text-justify text-[#4a3828]">
+                        <p>Milletlerin istikbâli, yalnızca bugünün meselelerini konuşmakla değil; mazisini idrak ederek, devlet geleneğini anlayarak ve köklü medeniyet mirasını geleceğe taşıyarak inşa edilir. GAZİ Meclis-i Mebusan, işte bu şuur ve mesuliyetle tesis edilmiş; gençlerin tarih, siyaset, diplomasi ve devlet idaresi alanlarında kendilerini inkişaf ettirmelerini hedefleyen mümtaz bir meclis simülasyonudur.</p>
 
-                    <p>GAZİ Meclis-i Mebusan, bu tarihî ruhu günümüz gençliğiyle buluşturmayı gaye edinmektedir. Katılımcılar yalnızca bir simülasyona iştirak etmez; aynı zamanda bir mebusun mesuliyetini, bir devlet adamının vakarını ve bir münevverin fikir dünyasını tecrübe ederler. Her encümen, devlet idaresinin farklı bir sahasını temsil ederken; her müzakere, fikirlerin olgunlaşmasına ve katılımcıların hitabet, muhakeme ve liderlik kabiliyetlerinin inkişafına vesile olur.</p>
+                        <p>Osmanlı Devleti'nin asırlar boyunca teşekkül ettirdiği devlet anlayışı; adalet, meşveret, liyakat ve istişare esasları üzerine bina edilmiştir. Bu kadim mirasın en mühim tezahürlerinden biri olan Meclis-i Mebusan, yalnızca kanunların müzakere edildiği bir makam değil; millet iradesinin temsil edildiği, fikirlerin serbestçe beyan edildiği ve devlet meselelerinin hikmetle ele alındığı mühim bir müesseseydi.</p>
 
-                    <p>Program süresince iştirakçiler, Osmanlı Devleti'nin son dönem siyasi atmosferini tarihî gerçeklik çerçevesinde tecrübe ederler. Hariciye'den Harbiye'ye, Maarif'ten Adliye'ye kadar uzanan encümenlerde devlet meseleleri müzakere edilir; diplomatik krizler değerlendirilir, kanun layihaları hazırlanır ve memleketin selameti için fikirler serdedilir.</p>
-                </div>
+                        <p>GAZİ Meclis-i Mebusan, bu tarihî ruhu günümüz gençliğiyle buluşturmayı gaye edinmektedir. Katılımcılar yalnızca bir simülasyona iştirak etmez; aynı zamanda bir mebusun mesuliyetini, bir devlet adamının vakarını ve bir münevverin fikir dünyasını tecrübe ederler.</p>
 
-                <div class="mt-8 text-center">
-                    <a href="hakkimizda-full.html" class="btn-outline-gold">Devamını Oku</a>
+                        <p>Program süresince iştirakçiler, Osmanlı Devleti'nin son dönem siyasi atmosferini tarihî gerçeklik çerçevesinde tecrübe ederler. Hariciye'den Harbiye'ye, Maarif'ten Adliye'ye kadar uzanan encümenlerde devlet meseleleri müzakere edilir; diplomatik krizler değerlendirilir, kanun layihaları hazırlanır ve memleketin selameti için fikirler serdedilir.</p>
+
+                        <div class="mt-8">
+                            <a href="hakkimizda-full.html" class="btn-outline-gold">Devamını Oku</a>
+                        </div>
+                    </div>
+
+                    <!-- Image column -->
+                    <div class="hakkimizda-img-wrap reveal-item">
+                        <img
+                            src="görseller/kitaplik.jpg"
+                            alt="Osmanlı dönemi kütüphane odası — açık kitap, Türk bayrağı ve tarihi ciltler"
+                            class="hakkimizda-img"
+                            loading="lazy"
+                        >
+                        <p class="hakkimizda-img-caption">Osmanlı ilim geleneğinin izinde…</p>
+                    </div>
+
                 </div>
             </div>
         </section>
+
+        <style>
+            /* Hakkımızda image */
+            .hakkimizda-img-wrap {
+                flex: 0 0 auto;
+                width: min(420px, 100%);
+                position: relative;
+            }
+            .hakkimizda-img {
+                width: 100%;
+                height: 460px;
+                object-fit: cover;
+                object-position: center 30%;
+                border: 3px solid rgba(61,12,13,0.18);
+                box-shadow:
+                    0 8px 40px rgba(61,12,13,0.22),
+                    inset 0 0 0 1px rgba(255,255,255,0.08);
+                display: block;
+                /* Subtle warm sepia tone to match parchment palette */
+                filter: sepia(12%) contrast(1.04) brightness(0.97);
+                transition: filter 0.4s ease, transform 0.4s ease;
+            }
+            .hakkimizda-img:hover {
+                filter: sepia(0%) contrast(1.06) brightness(1.01);
+                transform: scale(1.012);
+            }
+            /* Decorative gold corner accents */
+            .hakkimizda-img-wrap::before,
+            .hakkimizda-img-wrap::after {
+                content: '';
+                position: absolute;
+                width: 28px;
+                height: 28px;
+                border-color: #D4AF37;
+                border-style: solid;
+                z-index: 2;
+                pointer-events: none;
+            }
+            .hakkimizda-img-wrap::before {
+                top: -8px;
+                left: -8px;
+                border-width: 2px 0 0 2px;
+            }
+            .hakkimizda-img-wrap::after {
+                bottom: 24px;
+                right: -8px;
+                border-width: 0 2px 2px 0;
+            }
+            .hakkimizda-img-caption {
+                font-family: 'EB Garamond', serif;
+                font-style: italic;
+                font-size: 0.78rem;
+                color: rgba(74,56,40,0.65);
+                text-align: center;
+                margin-top: 0.6rem;
+                letter-spacing: 0.04em;
+            }
+            @media (max-width: 1023px) {
+                .hakkimizda-img-wrap { width: 100%; }
+                .hakkimizda-img { height: 300px; }
+            }
+        </style>
 
         <!-- ENCÜMENLER -->
         <section id="encumenler" class="section-dark reveal py-20 px-6">
