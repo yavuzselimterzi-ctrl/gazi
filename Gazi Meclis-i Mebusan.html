@@ -652,6 +652,249 @@
 </head>
 <body>
 
+    <!-- ═══════════════════════════════════════════════
+         LOADING SCREEN
+    ═══════════════════════════════════════════════ -->
+    <div id="loading-screen" aria-hidden="true">
+        <!-- Particle dots -->
+        <div class="loader-particles">
+            <span></span><span></span><span></span>
+            <span></span><span></span><span></span>
+            <span></span><span></span><span></span>
+            <span></span><span></span><span></span>
+        </div>
+
+        <!-- Outer rotating ring -->
+        <div class="loader-ring-outer"></div>
+        <!-- Middle rotating ring (counter) -->
+        <div class="loader-ring-mid"></div>
+
+        <!-- Logo wrapper -->
+        <div class="loader-logo-wrap">
+            <img src="görseller/logo.png"
+                 alt="Gazi Meclis-i Mebusan Logo"
+                 class="loader-logo"
+                 id="loader-logo-img">
+            <!-- Glow behind logo -->
+            <div class="loader-glow"></div>
+        </div>
+
+        <!-- Title text -->
+        <div class="loader-text">
+            <p class="loader-title">GAZİ MECLİS-İ MEBUSAN</p>
+            <p class="loader-subtitle">Mâzisini bilen, istikbâlini inşa eden nesil</p>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="loader-progress-track">
+            <div class="loader-progress-bar" id="loader-progress-bar"></div>
+        </div>
+    </div>
+
+    <style>
+        /* ── Loading Screen ─────────────────────────────── */
+        #loading-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background:
+                radial-gradient(ellipse 70% 70% at 50% 40%, rgba(212,175,55,0.07) 0%, transparent 65%),
+                linear-gradient(160deg, #1C0404 0%, #2A0809 50%, #3D0C0D 100%);
+            gap: 0;
+            overflow: hidden;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        #loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Particle dots scattered in background */
+        .loader-particles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+        .loader-particles span {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: rgba(212,175,55,0.35);
+            animation: particle-float 6s ease-in-out infinite;
+        }
+        .loader-particles span:nth-child(1)  { top:10%; left:15%; animation-delay:0s;    animation-duration:7s; }
+        .loader-particles span:nth-child(2)  { top:20%; left:80%; animation-delay:1s;    animation-duration:8s; }
+        .loader-particles span:nth-child(3)  { top:70%; left:10%; animation-delay:2s;    animation-duration:6s; }
+        .loader-particles span:nth-child(4)  { top:80%; left:70%; animation-delay:0.5s;  animation-duration:9s; }
+        .loader-particles span:nth-child(5)  { top:35%; left:92%; animation-delay:1.5s;  animation-duration:7s; }
+        .loader-particles span:nth-child(6)  { top:55%; left:5%;  animation-delay:2.5s;  animation-duration:8s; }
+        .loader-particles span:nth-child(7)  { top:5%;  left:50%; animation-delay:3s;    animation-duration:6s; }
+        .loader-particles span:nth-child(8)  { top:90%; left:40%; animation-delay:0.8s;  animation-duration:10s;}
+        .loader-particles span:nth-child(9)  { top:45%; left:88%; animation-delay:1.2s;  animation-duration:7s; }
+        .loader-particles span:nth-child(10) { top:65%; left:55%; animation-delay:2.2s;  animation-duration:8s; }
+        .loader-particles span:nth-child(11) { top:25%; left:33%; animation-delay:3.5s;  animation-duration:9s; }
+        .loader-particles span:nth-child(12) { top:82%; left:22%; animation-delay:1.8s;  animation-duration:6s; }
+
+        @keyframes particle-float {
+            0%,100% { transform: translateY(0) scale(1);   opacity: 0.35; }
+            50%      { transform: translateY(-18px) scale(1.6); opacity: 0.7; }
+        }
+
+        /* Outer spinning ring */
+        .loader-ring-outer {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(212,175,55,0.18);
+            border-top-color: rgba(212,175,55,0.8);
+            border-right-color: rgba(212,175,55,0.4);
+            animation: spin-cw 3s linear infinite;
+        }
+        /* Middle spinning ring (counter-clockwise, smaller) */
+        .loader-ring-mid {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 1px solid rgba(212,175,55,0.1);
+            border-bottom-color: rgba(212,175,55,0.6);
+            border-left-color: rgba(212,175,55,0.3);
+            animation: spin-ccw 2s linear infinite;
+        }
+
+        @keyframes spin-cw  { to { transform: rotate(360deg); } }
+        @keyframes spin-ccw { to { transform: rotate(-360deg); } }
+
+        /* Logo wrapper */
+        .loader-logo-wrap {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2.4rem;
+        }
+        /* Gold glow pulse behind the logo */
+        .loader-glow {
+            position: absolute;
+            inset: -20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212,175,55,0.22) 0%, transparent 70%);
+            animation: glow-pulse 2.4s ease-in-out infinite;
+        }
+        @keyframes glow-pulse {
+            0%,100% { transform: scale(1);   opacity: 0.6; }
+            50%      { transform: scale(1.18); opacity: 1; }
+        }
+
+        /* Logo image: starts black, filters to gold */
+        .loader-logo {
+            position: relative;
+            z-index: 1;
+            width: 110px;
+            height: 110px;
+            object-fit: contain;
+            filter: brightness(0) saturate(100%) invert(72%) sepia(45%) saturate(600%) hue-rotate(5deg) brightness(95%) contrast(92%);
+            animation: logo-breathe 2.4s ease-in-out infinite;
+        }
+        @keyframes logo-breathe {
+            0%,100% { transform: scale(1);     filter: brightness(0) saturate(100%) invert(72%) sepia(45%) saturate(600%) hue-rotate(5deg) brightness(95%) contrast(92%); }
+            50%      { transform: scale(1.06);  filter: brightness(0) saturate(100%) invert(80%) sepia(60%) saturate(700%) hue-rotate(5deg) brightness(110%) contrast(95%); }
+        }
+
+        /* Text block */
+        .loader-text {
+            text-align: center;
+            margin-bottom: 2.2rem;
+        }
+        .loader-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            color: #D4AF37;
+            text-shadow: 0 0 24px rgba(212,175,55,0.5);
+            animation: text-fade-in 1s ease forwards;
+            opacity: 0;
+            animation-delay: 0.3s;
+        }
+        .loader-subtitle {
+            font-family: 'EB Garamond', serif;
+            font-size: clamp(0.7rem, 2vw, 0.85rem);
+            font-style: italic;
+            letter-spacing: 0.08em;
+            color: rgba(212,175,55,0.55);
+            margin-top: 0.4rem;
+            animation: text-fade-in 1s ease forwards;
+            opacity: 0;
+            animation-delay: 0.7s;
+        }
+        @keyframes text-fade-in {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Progress bar */
+        .loader-progress-track {
+            width: min(280px, 70vw);
+            height: 2px;
+            background: rgba(212,175,55,0.15);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .loader-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #B8942E, #E8C96A, #D4AF37);
+            border-radius: 2px;
+            box-shadow: 0 0 8px rgba(212,175,55,0.7);
+            transition: width 0.1s linear;
+        }
+    </style>
+
+    <script>
+        (function () {
+            var screen  = document.getElementById('loading-screen');
+            var bar     = document.getElementById('loader-progress-bar');
+            var progress = 0;
+
+            // Animate progress bar
+            var interval = setInterval(function () {
+                // Ease toward 90 quickly, then slow down
+                var increment = progress < 70 ? 2.2 : (progress < 88 ? 0.6 : 0.1);
+                progress = Math.min(progress + increment, 92);
+                bar.style.width = progress + '%';
+            }, 50);
+
+            function hideLoader() {
+                clearInterval(interval);
+                bar.style.width = '100%';
+                setTimeout(function () {
+                    screen.classList.add('hidden');
+                    setTimeout(function () {
+                        screen.remove();
+                    }, 650);
+                }, 350);
+            }
+
+            if (document.readyState === 'complete') {
+                hideLoader();
+            } else {
+                window.addEventListener('load', hideLoader);
+                // Safety fallback — never show more than 4 s
+                setTimeout(hideLoader, 4000);
+            }
+        })();
+    </script>
+
     <!-- HEADER -->
     <header class="bg-[#3D0C0D]/90 border-b border-gold/20 sticky top-0 z-50 px-6 py-3 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-4">
