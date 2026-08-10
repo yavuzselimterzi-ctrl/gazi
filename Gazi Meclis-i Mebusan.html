@@ -12,7 +12,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
@@ -240,10 +240,13 @@
 
         /* Hero background */
         .hero-section {
-            min-height: 85vh;
+            min-height: 92vh;
             position: relative;
             overflow: hidden;
             background: #1C0404;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .hero-bg {
             position: absolute;
@@ -267,9 +270,23 @@
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
+            display: block;
+            margin: 0 auto;
+            max-width: min(100%, 760px);
+            line-height: 0.92;
+            text-wrap: balance;
+            font-size: clamp(2.4rem, 6vw, 5.85rem);
+            letter-spacing: 0.16em;
         }
         .hero-content p {
             text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+        }
+        .hero-content {
+            transition: transform 280ms ease-out;
+        }
+        .hero-bg {
+            transition: transform 280ms ease-out;
+            will-change: transform;
         }
 
         /* Parchment texture */
@@ -283,10 +300,10 @@
 
         /* Reveal on scroll animations with helper variants */
         :root {
-            --reveal-dur: 520ms;
+            --reveal-dur: 360ms;
             --reveal-ease: cubic-bezier(.22,1,.36,1);
-            --reveal-child-dur: 360ms;
-            --reveal-stagger: 45ms;
+            --reveal-child-dur: 260ms;
+            --reveal-stagger: 28ms;
         }
         .reveal {
             opacity: 0;
@@ -960,11 +977,11 @@
             <div class="hero-content relative z-10 max-w-4xl mx-auto px-6 py-24 text-center">
                 <img src="görseller/logo.png" alt="Gazi Meclis-i Mebusan" class="w-24 h-24 mx-auto object-contain logo-gold mb-6 reveal-item">
 
-                <h1 class="font-title text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-[0.15em] text-white leading-tight reveal-item">
+                <h1 class="font-title font-black uppercase tracking-[0.16em] text-white leading-[0.9] reveal-item">
                     GAZİ MECLİS-İ MEBUSAN
                 </h1>
 
-                <p class="font-title text-sm md:text-base text-gold tracking-[0.25em] mt-5 uppercase reveal-item">
+                <p class="font-title text-sm md:text-base lg:text-lg text-gold tracking-[0.3em] mt-6 uppercase reveal-item">
                     Geçmişini Bilen, Geleceğini Yazan Nesil
                 </p>
 
@@ -1396,7 +1413,7 @@
 
         // Enhanced smooth scrolling for wheel/trackpad: interpolated easing animation
         (function(){
-            const ease = 0.16;
+            const ease = 0.12;
             let current = window.scrollY;
             let target = current;
             let ticking = false;
@@ -1415,7 +1432,7 @@
 
             window.addEventListener('wheel', function(e){
                 e.preventDefault();
-                const multiplier = e.deltaY > 0 ? 4.2 : 1.4;
+                const multiplier = e.deltaY > 0 ? 10.5 : 2.8;
                 const delta = e.deltaY * multiplier;
                 target += delta;
                 if (target < 0) target = 0;
@@ -1428,7 +1445,7 @@
 
             // Keyboard navigation support
             window.addEventListener('keydown', function(e){
-                const step = window.innerHeight * 1.35;
+                const step = window.innerHeight * 2.2;
                 if (['ArrowDown','PageDown','ArrowUp','PageUp','Home','End',' '].includes(e.key)) {
                     if (e.key === 'ArrowDown') target = Math.min(maxScroll(), target + 80);
                     else if (e.key === 'ArrowUp') target = Math.max(0, target - 80);
@@ -1447,6 +1464,32 @@
             // Keep in sync when other code scrolls or on resize
             window.addEventListener('resize', ()=> { current = window.scrollY; target = current; });
             window.addEventListener('scroll', ()=> { if (Math.abs(window.scrollY - target) > 100) { target = window.scrollY; current = window.scrollY; } });
+        })();
+
+        // Subtle parallax motion for the hero section
+        (function(){
+            const heroSection = document.querySelector('.hero-section');
+            const heroBg = document.querySelector('.hero-bg');
+            const heroContent = document.querySelector('.hero-content');
+            if (!heroSection || !heroBg || !heroContent) return;
+
+            let frame = null;
+            heroSection.addEventListener('pointermove', (e) => {
+                const rect = heroSection.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+                const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+                if (frame) cancelAnimationFrame(frame);
+                frame = requestAnimationFrame(() => {
+                    heroBg.style.transform = `translate3d(${x * -10}px, ${y * -8}px, 0) scale(1.04)`;
+                    heroContent.style.transform = `translate3d(${x * 8}px, ${y * 5}px, 0)`;
+                });
+            });
+
+            heroSection.addEventListener('pointerleave', () => {
+                if (frame) cancelAnimationFrame(frame);
+                heroBg.style.transform = '';
+                heroContent.style.transform = '';
+            });
         })();
 
         // Reveal-on-scroll using IntersectionObserver
