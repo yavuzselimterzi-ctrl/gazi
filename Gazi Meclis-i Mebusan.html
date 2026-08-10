@@ -139,6 +139,7 @@
     <style>
         html {
             scroll-behavior: smooth;
+            scroll-padding-top: 1.5rem;
         }
         body {
             font-family: 'EB Garamond', serif;
@@ -149,6 +150,18 @@
                 linear-gradient(180deg, #1C0404 0%, #2A0809 40%, #3D0C0D 100%);
             background-attachment: fixed;
             color: #f0ece4;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            font-feature-settings: "kern" 1, "liga" 1;
+        }
+        ::selection {
+            background: rgba(212, 175, 55, 0.35);
+            color: #fffdf7;
+        }
+        h1, h2, h3, h4, .font-title {
+            letter-spacing: 0.04em;
+            text-wrap: balance;
         }
         .scroll-decoration {
             position: fixed;
@@ -196,10 +209,13 @@
             font-weight: 600;
             letter-spacing: 0.12em;
             transition: all 0.25s ease;
+            box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.2);
         }
         .btn-outline-gold:hover {
             background-color: #D4AF37;
             color: #3D0C0D;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(212, 175, 55, 0.18);
         }
 
         .btn-hero {
@@ -214,10 +230,12 @@
             font-weight: 700;
             letter-spacing: 0.1em;
             transition: all 0.25s ease;
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.22);
         }
         .btn-hero:hover {
             background-color: #B8942E;
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 16px 36px rgba(212, 175, 55, 0.28);
         }
 
         /* Hero background */
@@ -245,6 +263,10 @@
         }
         .hero-content h1 {
             text-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
+            background: linear-gradient(180deg, #fff8de 0%, #f2d46b 45%, #e3ba3c 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .hero-content p {
             text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
@@ -261,14 +283,14 @@
 
         /* Reveal on scroll animations with helper variants */
         :root {
-            --reveal-dur: 700ms;
-            --reveal-ease: cubic-bezier(.2,.8,.2,1);
-            --reveal-child-dur: 560ms;
-            --reveal-stagger: 70ms;
+            --reveal-dur: 520ms;
+            --reveal-ease: cubic-bezier(.22,1,.36,1);
+            --reveal-child-dur: 360ms;
+            --reveal-stagger: 45ms;
         }
         .reveal {
             opacity: 0;
-            transform: translateY(28px) scale(0.995);
+            transform: translateY(16px) scale(0.996);
             transition: opacity var(--reveal-dur) var(--reveal-ease), transform var(--reveal-dur) var(--reveal-ease);
             will-change: opacity, transform;
         }
@@ -278,9 +300,9 @@
         }
 
         /* Variants */
-        .reveal--slide-left { transform: translateX(28px) scale(0.995); }
-        .reveal--slide-right { transform: translateX(-28px) scale(0.995); }
-        .reveal--zoom { transform: translateY(8px) scale(0.96); }
+        .reveal--slide-left { transform: translateX(16px) scale(0.996); }
+        .reveal--slide-right { transform: translateX(-16px) scale(0.996); }
+        .reveal--zoom { transform: translateY(8px) scale(0.97); }
         .reveal--fade { transform: none; opacity: 0; }
 
         .reveal.in-view.reveal--zoom { transform: translateY(0) scale(1); }
@@ -291,10 +313,18 @@
         /* Stagger children inside revealed containers (JS will assign delays too) */
         .reveal > * {
             opacity: 0;
-            transform: translateY(12px);
+            transform: translateY(10px) scale(0.995);
             transition: opacity var(--reveal-child-dur) ease, transform var(--reveal-child-dur) ease;
         }
         .reveal.in-view > * { opacity:1; transform:none; }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .reveal, .reveal > *, .btn-hero, .btn-outline-gold, .team-card {
+                transition: none !important;
+                animation: none !important;
+            }
+        }
 
         /* Optional helper for single items */
         .reveal-item { will-change: opacity, transform; }
@@ -1366,7 +1396,7 @@
 
         // Enhanced smooth scrolling for wheel/trackpad: interpolated easing animation
         (function(){
-            const ease = 0.22;
+            const ease = 0.16;
             let current = window.scrollY;
             let target = current;
             let ticking = false;
@@ -1374,9 +1404,9 @@
 
             function rafLoop(){
                 current += (target - current) * ease;
-                if (Math.abs(target - current) < 0.5) current = target;
+                if (Math.abs(target - current) < 0.6) current = target;
                 window.scrollTo(0, Math.round(current));
-                if (Math.abs(target - current) > 0.5) {
+                if (Math.abs(target - current) > 0.6) {
                     requestAnimationFrame(rafLoop);
                 } else {
                     ticking = false;
@@ -1385,8 +1415,7 @@
 
             window.addEventListener('wheel', function(e){
                 e.preventDefault();
-                // stronger amplification for downward scroll
-                const multiplier = e.deltaY > 0 ? 2.8 : 1.0;
+                const multiplier = e.deltaY > 0 ? 4.2 : 1.4;
                 const delta = e.deltaY * multiplier;
                 target += delta;
                 if (target < 0) target = 0;
@@ -1399,7 +1428,7 @@
 
             // Keyboard navigation support
             window.addEventListener('keydown', function(e){
-                const step = window.innerHeight * 1.1;
+                const step = window.innerHeight * 1.35;
                 if (['ArrowDown','PageDown','ArrowUp','PageUp','Home','End',' '].includes(e.key)) {
                     if (e.key === 'ArrowDown') target = Math.min(maxScroll(), target + 80);
                     else if (e.key === 'ArrowUp') target = Math.max(0, target - 80);
