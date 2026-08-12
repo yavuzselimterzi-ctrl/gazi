@@ -698,6 +698,179 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #1C0404; }
         ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 4px; }
+
+        /* ─────────────────────────────────────────────────────
+           YENI ANIMASYONLAR - Anasayfa Zenginleştirme
+        ───────────────────────────────────────────────────── */
+
+        /* Floating particles - havada uçuşan parçacıklar */
+        @keyframes float-up {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+        @keyframes float-up-slow {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            5% { opacity: 0.6; }
+            95% { opacity: 0.6; }
+            100% { transform: translateY(-120vh) rotate(-360deg); opacity: 0; }
+        }
+
+        .floating-particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #D4AF37, rgba(212,175,55,0.4));
+            pointer-events: none;
+            z-index: 1;
+            box-shadow: 0 0 10px rgba(212,175,55,0.6);
+        }
+
+        /* Glow pulse effect - yanıp sönen ışıltı */
+        @keyframes glow-pulse-intense {
+            0%, 100% { 
+                box-shadow: 0 0 10px rgba(212,175,55,0.4), 0 0 20px rgba(212,175,55,0.2), inset 0 0 10px rgba(212,175,55,0.1);
+                text-shadow: 0 0 10px rgba(212,175,55,0.5);
+            }
+            50% { 
+                box-shadow: 0 0 20px rgba(212,175,55,0.8), 0 0 40px rgba(212,175,55,0.5), inset 0 0 20px rgba(212,175,55,0.2);
+                text-shadow: 0 0 20px rgba(212,175,55,0.8), 0 0 10px rgba(212,175,55,0.6);
+            }
+        }
+
+        .glow-text {
+            animation: glow-pulse-intense 3s ease-in-out infinite;
+        }
+
+        /* Shimmer effect - parlayan efekt */
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        .shimmer-element {
+            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.3), transparent);
+            background-size: 1000px 100%;
+            animation: shimmer 3s infinite;
+        }
+
+        /* Spin slow - yavaş dönen animasyon */
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .spin-slow {
+            animation: spin-slow 6s linear infinite;
+        }
+
+        /* Scale pulse - nabız gibi çarpan efekt */
+        @keyframes scale-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        .scale-pulse {
+            animation: scale-pulse 2.5s ease-in-out infinite;
+        }
+
+        /* Wave motion - dalga hareketi */
+        @keyframes wave-motion {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(2px) translateY(-2px); }
+            50% { transform: translateX(0) translateY(0); }
+            75% { transform: translateX(-2px) translateY(2px); }
+        }
+        .wave-motion {
+            animation: wave-motion 3s ease-in-out infinite;
+        }
+
+        /* Sliding glow border */
+        @keyframes border-glow {
+            0%, 100% { border-color: rgba(212,175,55,0.2); }
+            50% { border-color: rgba(212,175,55,0.7); }
+        }
+        .border-glow {
+            animation: border-glow 2s ease-in-out infinite;
+        }
+
+        /* Text fade in cascade */
+        @keyframes text-cascade {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .text-cascade {
+            animation: text-cascade 0.8s ease-out forwards;
+        }
+        .text-cascade:nth-child(1) { animation-delay: 0s; }
+        .text-cascade:nth-child(2) { animation-delay: 0.15s; }
+        .text-cascade:nth-child(3) { animation-delay: 0.3s; }
+
+        /* Orbit animation - yörüngede dönen */
+        @keyframes orbit {
+            0% { transform: rotate(0deg) translateX(30px) rotate(0deg); }
+            100% { transform: rotate(360deg) translateX(30px) rotate(-360deg); }
+        }
+        .orbit {
+            animation: orbit 8s linear infinite;
+            transform-origin: 50% 50%;
+        }
+
+        /* Bounce down animation */
+        @keyframes bounce-down {
+            0% { transform: translateY(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(20px); opacity: 0; }
+        }
+        .bounce-down {
+            animation: bounce-down 2s ease-in infinite;
+        }
+
+        /* Color shift animation */
+        @keyframes color-shift {
+            0%, 100% { color: #D4AF37; text-shadow: 0 0 10px rgba(212,175,55,0.6); }
+            50% { color: #E8C96A; text-shadow: 0 0 20px rgba(232,201,106,0.8); }
+        }
+        .color-shift {
+            animation: color-shift 4s ease-in-out infinite;
+        }
+
+        /* Slide in from sides */
+        @keyframes slide-in-left {
+            from { transform: translateX(-30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slide-in-right {
+            from { transform: translateX(30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .slide-in-left {
+            animation: slide-in-left 0.8s ease-out forwards;
+        }
+        .slide-in-right {
+            animation: slide-in-right 0.8s ease-out forwards;
+        }
+
+        /* Gradient text animation */
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .gradient-text-animated {
+            background: linear-gradient(-45deg, #D4AF37, #E8C96A, #B8942E, #D4AF37);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 4s ease infinite;
+        }
+
+        /* Stagger animation helper */
+        .stagger-delay-1 { animation-delay: 0.1s; }
+        .stagger-delay-2 { animation-delay: 0.2s; }
+        .stagger-delay-3 { animation-delay: 0.3s; }
+        .stagger-delay-4 { animation-delay: 0.4s; }
+        .stagger-delay-5 { animation-delay: 0.5s; }
     </style>
 </head>
 <body>
@@ -976,20 +1149,20 @@
             <div class="hero-bg"></div>
 
             <div class="hero-content relative z-10 max-w-4xl mx-auto px-6 py-24 text-center">
-                <img src="görseller/logo.png" alt="Gazi Meclis-i Mebusan" class="w-24 h-24 mx-auto object-contain logo-gold mb-6 reveal-item">
+                <img src="görseller/logo.png" alt="Gazi Meclis-i Mebusan" class="w-24 h-24 mx-auto object-contain logo-gold mb-6 reveal-item scale-pulse">
 
                 <h1 class="font-title font-black uppercase tracking-[0.16em] text-white leading-[0.82] reveal-item">
-                    <span class="block" style="font-variant-ligatures: none; letter-spacing: 0.18em;">GÂZİ</span>
-                    <span class="block mt-1" style="font-variant-ligatures: none; letter-spacing: 0.18em;">MECLİS-İ</span>
-                    <span class="block mt-1" style="font-variant-ligatures: none; letter-spacing: 0.18em;">MEBUSAN</span>
+                    <span class="block text-cascade stagger-delay-1 gradient-text-animated" style="font-variant-ligatures: none; letter-spacing: 0.18em;">GÂZİ</span>
+                    <span class="block mt-1 text-cascade stagger-delay-2 gradient-text-animated" style="font-variant-ligatures: none; letter-spacing: 0.18em;">MECLİS-İ</span>
+                    <span class="block mt-1 text-cascade stagger-delay-3 gradient-text-animated" style="font-variant-ligatures: none; letter-spacing: 0.18em;">MEBUSAN</span>
                 </h1>
 
-                <p class="font-title text-sm md:text-base lg:text-lg text-gold tracking-[0.3em] mt-6 uppercase reveal-item">
+                <p class="font-title text-sm md:text-base lg:text-lg text-gold tracking-[0.3em] mt-6 uppercase reveal-item color-shift">
                     Gayret ile başlayıp, Adalet ile yürüyen; Zarafet ile yükselen ve İstikbal'e yürüyen bir nesil için...
                 </p>
 
                 <div class="mt-10">
-                    <a href="basvuru.html" class="btn-hero reveal-item">
+                    <a href="basvuru.html" class="btn-hero reveal-item scale-pulse" style="animation-duration: 3s;">
                         BAŞVURU YAP <i class="fa-solid fa-arrow-right text-sm"></i>
                     </a>
                 </div>
@@ -1044,15 +1217,15 @@
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-12">
                     <div class="section-title-deco">
-                        <h2 class="font-title text-3xl md:text-4xl font-bold tracking-[0.2em] text-gold">VİZYON VE MİSYON</h2>
+                        <h2 class="font-title text-3xl md:text-4xl font-bold tracking-[0.2em] text-gold color-shift">VİZYON VE MİSYON</h2>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-6xl mx-auto">
                     <!-- Vizyonumuz -->
-                    <div class="reveal-item">
-                        <div class="rounded-[2rem] border border-gold/30 bg-rgba(61, 12, 13, 0.85) p-8 md:p-10 shadow-[0_30px_80px_rgba(28,4,4,0.22)]">
-                            <h3 class="font-title text-2xl font-bold uppercase tracking-[0.2em] text-gold mb-6">Vizyonumuz</h3>
+                    <div class="reveal-item slide-in-left">
+                        <div class="rounded-[2rem] border border-gold/30 bg-rgba(61, 12, 13, 0.85) p-8 md:p-10 shadow-[0_30px_80px_rgba(28,4,4,0.22)] border-glow hover:shadow-[0_40px_100px_rgba(212,175,55,0.3)] transition-shadow duration-500">
+                            <h3 class="font-title text-2xl font-bold uppercase tracking-[0.2em] text-gold mb-6 color-shift">Vizyonumuz</h3>
                             <div class="space-y-4 text-[1.02rem] leading-8 text-[#f8ead1]">
                                 <p>GAZİ Meclis-i Mebusan olarak vizyonumuz; tarihî ve siyasî meseleleri yalnızca geçmişin birer hatırası olarak değil, bugünün dünyasını anlamanın ve yarının sorumluluklarını üstlenmenin bir vasıtası olarak gören; <strong>düşünen, araştıran, sorgulayan ve söz söylemekten çekinmeyen bir gençlik</strong> yetiştirmektir. Meclis kültürünü, müzakere ahlâkını ve ortak akıl anlayışını merkeze alarak gençlerin tarih şuurunu ve siyasî muhakeme kabiliyetini geliştiren nitelikli bir platform olmayı hedefliyoruz.</p>
                             </div>
@@ -1060,9 +1233,9 @@
                     </div>
 
                     <!-- Misyonumuz -->
-                    <div class="reveal-item">
-                        <div class="rounded-[2rem] border border-gold/30 bg-rgba(61, 12, 13, 0.85) p-8 md:p-10 shadow-[0_30px_80px_rgba(28,4,4,0.22)]">
-                            <h3 class="font-title text-2xl font-bold uppercase tracking-[0.2em] text-gold mb-6">Misyonumuz</h3>
+                    <div class="reveal-item slide-in-right">
+                        <div class="rounded-[2rem] border border-gold/30 bg-rgba(61, 12, 13, 0.85) p-8 md:p-10 shadow-[0_30px_80px_rgba(28,4,4,0.22)] border-glow hover:shadow-[0_40px_100px_rgba(212,175,55,0.3)] transition-shadow duration-500">
+                            <h3 class="font-title text-2xl font-bold uppercase tracking-[0.2em] text-gold mb-6 color-shift">Misyonumuz</h3>
                             <div class="space-y-4 text-[1.02rem] leading-8 text-[#f8ead1]">
                                 <p>Misyonumuz; gençleri Osmanlı Meclis-i Mebusanı'nın tarihî atmosferi içerisinde dönemin siyasî, sosyal ve idarî meseleleriyle buluşturmak; farklı fikirlerin <strong>edep, bilgi ve müzakere</strong> çerçevesinde karşı karşıya gelebildiği bir meclis ortamı oluşturmaktır. Katılımcıların araştırma yapma, fikirlerini savunma, karşıt görüşleri değerlendirme ve ortak bir neticeye ulaşma becerilerini geliştirmeyi amaçlıyoruz. <strong>GAZİ Meclis-i Mebusan</strong>, geçmişi anlamaktan geleceği inşa etmeye uzanan bu yolculukta gençlere yalnızca bir etkinlik değil, fikir ve şahsiyet kazandıran bir tecrübe sunmayı hedefler.</p>
                             </div>
@@ -1520,6 +1693,36 @@
             // Keep in sync when other code scrolls or on resize
             window.addEventListener('resize', ()=> { current = window.scrollY; target = current; });
             window.addEventListener('scroll', ()=> { if (Math.abs(window.scrollY - target) > 100) { target = window.scrollY; current = window.scrollY; } });
+        })();
+
+        // Floating particles animation - havada uçuşan altın parçacıklar
+        (function(){
+            const heroSection = document.querySelector('.hero-section');
+            if (!heroSection) return;
+
+            function createFloatingParticle() {
+                const particle = document.createElement('div');
+                particle.className = 'floating-particle';
+                const duration = Math.random() * 3 + 4;
+                const delay = Math.random() * 0.5;
+                const leftPos = Math.random() * 100;
+                
+                particle.style.left = leftPos + '%';
+                particle.style.top = '100%';
+                particle.style.animation = `float-up ${duration}s ease-in ${delay}s forwards`;
+                
+                heroSection.appendChild(particle);
+                
+                setTimeout(() => particle.remove(), (duration + delay) * 1000);
+            }
+
+            // Her 300ms'de bir yeni parçacık oluştur
+            setInterval(createFloatingParticle, 300);
+            
+            // İlk başlangıç parçacıkları
+            for (let i = 0; i < 5; i++) {
+                setTimeout(createFloatingParticle, i * 100);
+            }
         })();
 
         // Subtle parallax motion for the hero section
