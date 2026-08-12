@@ -1488,7 +1488,7 @@
 
             window.addEventListener('wheel', function(e){
                 e.preventDefault();
-                const multiplier = e.deltaY > 0 ? 10.5 : 2.8;
+                const multiplier = 10.5;
                 const delta = e.deltaY * multiplier;
                 target += delta;
                 if (target < 0) target = 0;
