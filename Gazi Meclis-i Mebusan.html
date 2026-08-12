@@ -871,6 +871,145 @@
         .stagger-delay-3 { animation-delay: 0.3s; }
         .stagger-delay-4 { animation-delay: 0.4s; }
         .stagger-delay-5 { animation-delay: 0.5s; }
+
+        /* ─────────────────────────────────────────────────────
+           SCROLL ANIMASYONLARI
+        ───────────────────────────────────────────────────── */
+
+        /* Parallax scroll effect */
+        @keyframes parallax-up {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .parallax-item {
+            animation: parallax-up 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        /* Scroll fade in */
+        @keyframes scroll-fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .scroll-fade {
+            animation: scroll-fade-in 1s ease-out forwards;
+            opacity: 0;
+        }
+
+        /* Scroll zoom in */
+        @keyframes scroll-zoom-in {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .scroll-zoom {
+            animation: scroll-zoom-in 0.9s ease-out forwards;
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        /* Scroll rotate in */
+        @keyframes scroll-rotate {
+            from { transform: rotate(-5deg) scale(0.95); opacity: 0; }
+            to { transform: rotate(0) scale(1); opacity: 1; }
+        }
+        .scroll-rotate {
+            animation: scroll-rotate 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        /* Scroll blur fade - Blurdan keskinleşme */
+        @keyframes blur-fade-in {
+            from { filter: blur(10px); opacity: 0; }
+            to { filter: blur(0); opacity: 1; }
+        }
+        .scroll-blur-fade {
+            animation: blur-fade-in 1.2s ease-out forwards;
+            opacity: 0;
+            filter: blur(10px);
+        }
+
+        /* Scroll glow in */
+        @keyframes scroll-glow-in {
+            0% { 
+                opacity: 0;
+                box-shadow: 0 0 0 rgba(212,175,55,0.5);
+            }
+            100% { 
+                opacity: 1;
+                box-shadow: 0 10px 40px rgba(212,175,55,0.3);
+            }
+        }
+        .scroll-glow {
+            animation: scroll-glow-in 1s ease-out forwards;
+            opacity: 0;
+        }
+
+        /* Scroll slide + fade horizontal */
+        @keyframes scroll-slide-left {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes scroll-slide-right {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .scroll-slide-left {
+            animation: scroll-slide-left 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        .scroll-slide-right {
+            animation: scroll-slide-right 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        /* Scroll flip in */
+        @keyframes scroll-flip {
+            from { transform: perspective(1000px) rotateY(90deg); opacity: 0; }
+            to { transform: perspective(1000px) rotateY(0); opacity: 1; }
+        }
+        .scroll-flip {
+            animation: scroll-flip 0.9s ease-out forwards;
+            opacity: 0;
+        }
+
+        /* Scroll line draw - Line çekilerek belirir */
+        @keyframes line-draw {
+            from { max-width: 0; opacity: 0; }
+            to { max-width: 100%; opacity: 1; }
+        }
+        .scroll-line-draw {
+            animation: line-draw 1s ease-out forwards;
+            max-width: 0;
+            opacity: 0;
+        }
+
+        /* Stagger scroll delay için */
+        .scroll-stagger-1 { animation-delay: 0.1s; }
+        .scroll-stagger-2 { animation-delay: 0.25s; }
+        .scroll-stagger-3 { animation-delay: 0.4s; }
+        .scroll-stagger-4 { animation-delay: 0.55s; }
+        .scroll-stagger-5 { animation-delay: 0.7s; }
+
+        /* Counter animation - sayı sayması */
+        @keyframes count-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .scroll-count-pulse {
+            animation: count-pulse 1.5s ease-in-out infinite;
+        }
+
+        /* Background color gradient on scroll */
+        .scroll-color-shift {
+            animation: gradient-shift 3s ease-in-out forwards;
+        }
+
+        /* Hover effect for scroll elements */
+        .scroll-hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(212,175,55,0.4);
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
 <body>
@@ -1256,37 +1395,37 @@
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                    <button type="button" class="encumen-card reveal-item" data-encumen="adliye">
+                    <button type="button" class="encumen-card reveal-item scroll-zoom scroll-stagger-1 scroll-hover-lift" data-encumen="adliye">
                         <span class="corner-tr"></span><span class="corner-bl"></span>
                         <h3 class="font-title text-sm font-bold text-gold uppercase tracking-wider mb-1">1. Adliye Encümeni</h3>
                         <p class="text-xs text-gold/70 uppercase tracking-wider mb-3">Hukuk</p>
                         <p class="text-sm text-white/60">3 tartışma konusu</p>
                     </button>
-                    <button type="button" class="encumen-card reveal-item" data-encumen="hariciye">
+                    <button type="button" class="encumen-card reveal-item scroll-zoom scroll-stagger-2 scroll-hover-lift" data-encumen="hariciye">
                         <span class="corner-tr"></span><span class="corner-bl"></span>
                         <h3 class="font-title text-sm font-bold text-gold uppercase tracking-wider mb-1">2. Hariciye Encümeni</h3>
                         <p class="text-xs text-gold/70 uppercase tracking-wider mb-3">Dış Politika</p>
                         <p class="text-sm text-white/60">3 tartışma konusu</p>
                     </button>
-                    <button type="button" class="encumen-card reveal-item" data-encumen="dahiliye">
+                    <button type="button" class="encumen-card reveal-item scroll-zoom scroll-stagger-3 scroll-hover-lift" data-encumen="dahiliye">
                         <span class="corner-tr"></span><span class="corner-bl"></span>
                         <h3 class="font-title text-sm font-bold text-gold uppercase tracking-wider mb-1">3. Dahiliye Encümeni</h3>
                         <p class="text-xs text-gold/70 uppercase tracking-wider mb-3">İçişleri</p>
                         <p class="text-sm text-white/60">3 tartışma konusu</p>
                     </button>
-                    <button type="button" class="encumen-card reveal-item" data-encumen="maarif">
+                    <button type="button" class="encumen-card reveal-item scroll-zoom scroll-stagger-4 scroll-hover-lift" data-encumen="maarif">
                         <span class="corner-tr"></span><span class="corner-bl"></span>
                         <h3 class="font-title text-sm font-bold text-gold uppercase tracking-wider mb-1">4. Maarif Encümeni</h3>
                         <p class="text-xs text-gold/70 uppercase tracking-wider mb-3">Eğitim</p>
                         <p class="text-sm text-white/60">3 tartışma konusu</p>
                     </button>
-                    <button type="button" class="encumen-card reveal-item" data-encumen="harbiye">
+                    <button type="button" class="encumen-card reveal-item scroll-zoom scroll-stagger-5 scroll-hover-lift" data-encumen="harbiye">
                         <span class="corner-tr"></span><span class="corner-bl"></span>
                         <h3 class="font-title text-sm font-bold text-gold uppercase tracking-wider mb-1">5. Harbiye Encümeni</h3>
                         <p class="text-xs text-gold/70 uppercase tracking-wider mb-3">Milli Savunma</p>
                         <p class="text-sm text-white/60">3 tartışma konusu</p>
                     </button>
-                    <button type="button" class="encumen-card reveal-item" data-encumen="nafia">
+                    <button type="button" class="encumen-card reveal-item scroll-zoom scroll-stagger-1 scroll-hover-lift" data-encumen="nafia">
                         <span class="corner-tr"></span><span class="corner-bl"></span>
                         <h3 class="font-title text-sm font-bold text-gold uppercase tracking-wider mb-1">6. Nafia Encümeni</h3>
                         <p class="text-xs text-gold/70 uppercase tracking-wider mb-3">Altyapı</p>
@@ -1318,7 +1457,7 @@
 
                 <div class="team-scroll">
                     <div class="team-track">
-                        <div class="team-card">
+                        <div class="team-card scroll-flip scroll-stagger-1 scroll-hover-lift">
                             <a href="yavuz.html" class="team-link" title="Yavuz Selim Terzi — Profil">
                                 <div class="team-portrait">
                                     <div class="team-initials">YST</div>
@@ -1329,7 +1468,7 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="team-card">
+                        <div class="team-card scroll-flip scroll-stagger-2 scroll-hover-lift">
                             <div class="team-portrait">
                                 <div class="team-initials">ÖTT</div>
                             </div>
@@ -1338,7 +1477,7 @@
                                 <p class="name">Ömer Talha Terzi</p>
                             </div>
                         </div>
-                        <div class="team-card">
+                        <div class="team-card scroll-flip scroll-stagger-3 scroll-hover-lift">
                             <div class="team-portrait">
                                 <div class="team-initials">ÖAS</div>
                             </div>
@@ -1347,7 +1486,7 @@
                                 <p class="name">Ömer Asaf Solakoğlu</p>
                             </div>
                         </div>
-                        <div class="team-card">
+                        <div class="team-card scroll-flip scroll-stagger-4 scroll-hover-lift">
                             <div class="team-portrait">
                                 <div class="team-initials">ÖT</div>
                             </div>
@@ -1356,7 +1495,7 @@
                                 <p class="name">Ömer Tan</p>
                             </div>
                         </div>
-                        <div class="team-card">
+                        <div class="team-card scroll-flip scroll-stagger-5 scroll-hover-lift">
                             <div class="team-portrait">
                                 <div class="team-initials">HÜK</div>
                             </div>
@@ -1365,7 +1504,7 @@
                                 <p class="name">Hakan Ünsal Kıraç</p>
                             </div>
                         </div>
-                        <div class="team-card">
+                        <div class="team-card scroll-flip scroll-stagger-1 scroll-hover-lift">
                             <div class="team-portrait">
                                 <div class="team-initials">KN</div>
                             </div>
@@ -1749,6 +1888,147 @@
                 heroBg.style.transform = '';
                 heroContent.style.transform = '';
             });
+        })();
+
+        // Advanced Scroll Animation System - Kaydırma Animasyonları
+        (function(){
+            // Intersection Observer Configuration
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const element = entry.target;
+                        
+                        // Element üzerindeki scroll animasyon sınıflarını tespit et
+                        const classes = element.className;
+                        
+                        if (classes.includes('parallax-item')) {
+                            element.style.animationName = 'parallax-up';
+                            element.style.animation = 'parallax-up 0.8s ease-out forwards';
+                        }
+                        if (classes.includes('scroll-fade')) {
+                            element.style.animation = 'scroll-fade-in 1s ease-out forwards';
+                        }
+                        if (classes.includes('scroll-zoom')) {
+                            element.style.animation = 'scroll-zoom-in 0.9s ease-out forwards';
+                        }
+                        if (classes.includes('scroll-rotate')) {
+                            element.style.animation = 'scroll-rotate 0.8s ease-out forwards';
+                        }
+                        if (classes.includes('scroll-blur-fade')) {
+                            element.style.animation = 'blur-fade-in 1.2s ease-out forwards';
+                        }
+                        if (classes.includes('scroll-glow')) {
+                            element.style.animation = 'scroll-glow-in 1s ease-out forwards';
+                        }
+                        if (classes.includes('scroll-slide-left')) {
+                            element.style.animation = 'scroll-slide-left 0.8s ease-out forwards';
+                        }
+                        if (classes.includes('scroll-slide-right')) {
+                            element.style.animation = 'scroll-slide-right 0.8s ease-out forwards';
+                        }
+                        if (classes.includes('scroll-flip')) {
+                            element.style.animation = 'scroll-flip 0.9s ease-out forwards';
+                        }
+                        
+                        // One-time animation
+                        observer.unobserve(element);
+                    }
+                });
+            }, observerOptions);
+
+            // Tüm animasyon sınıflarına sahip elementleri gözle
+            const scrollElements = document.querySelectorAll(
+                '.parallax-item, .scroll-fade, .scroll-zoom, .scroll-rotate, ' +
+                '.scroll-blur-fade, .scroll-glow, .scroll-slide-left, .scroll-slide-right, ' +
+                '.scroll-flip, .scroll-line-draw'
+            );
+            
+            scrollElements.forEach(el => observer.observe(el));
+
+            // Parallax scrolling effect - kaydırırken background daha yavaş hareket
+            window.addEventListener('scroll', () => {
+                const parallaxElements = document.querySelectorAll('[data-parallax]');
+                const scrollY = window.scrollY;
+                
+                parallaxElements.forEach(element => {
+                    const speed = element.getAttribute('data-parallax') || 0.5;
+                    element.style.transform = `translateY(${scrollY * speed}px)`;
+                });
+            }, { passive: true });
+
+            // Smooth parallax for sections
+            const parchmentSection = document.querySelector('.parchment-bg');
+            if (parchmentSection) {
+                window.addEventListener('scroll', () => {
+                    const scrollY = window.scrollY;
+                    const rect = parchmentSection.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        const parallaxOffset = (scrollY - rect.top + window.innerHeight) * 0.1;
+                        parchmentSection.style.backgroundPosition = `0 ${parallaxOffset}px`;
+                    }
+                }, { passive: true });
+            }
+
+            // Counter animation - sayaç efekti
+            function animateCounter(element, target) {
+                let current = 0;
+                const increment = target / 30;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        element.textContent = Math.floor(target);
+                        clearInterval(timer);
+                    } else {
+                        element.textContent = Math.floor(current);
+                    }
+                }, 50);
+            }
+
+            // Sayı animasyonlu elementleri bul ve trigger et
+            const countElements = document.querySelectorAll('[data-count]');
+            countElements.forEach(el => {
+                const countObserver = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        const target = parseInt(el.getAttribute('data-count'));
+                        animateCounter(el, target);
+                        countObserver.unobserve(el);
+                    }
+                }, { threshold: 0.5 });
+                countObserver.observe(el);
+            });
+
+            // Scroll progress indicator
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+                
+                // Scroll progress bar oluştur (varsa)
+                let progressBar = document.getElementById('scroll-progress-bar');
+                if (!progressBar && scrollPercent > 0) {
+                    progressBar = document.createElement('div');
+                    progressBar.id = 'scroll-progress-bar';
+                    progressBar.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        height: 3px;
+                        background: linear-gradient(90deg, #D4AF37, #E8C96A);
+                        z-index: 1000;
+                        box-shadow: 0 0 10px rgba(212,175,55,0.6);
+                    `;
+                    document.body.appendChild(progressBar);
+                }
+                
+                if (progressBar) {
+                    progressBar.style.width = scrollPercent + '%';
+                }
+            }, { passive: true });
         })();
 
         // Reveal-on-scroll using IntersectionObserver
