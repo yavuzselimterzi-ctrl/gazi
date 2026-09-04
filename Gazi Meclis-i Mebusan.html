@@ -1919,9 +1919,9 @@
 
             const observer = new IntersectionObserver(function(entries) {
                 entries.forEach(entry => {
+                    const element = entry.target;
+
                     if (entry.isIntersecting) {
-                        const element = entry.target;
-                        
                         // Element üzerindeki scroll animasyon sınıflarını tespit et
                         const classes = element.className;
                         
@@ -1966,9 +1966,10 @@
                             element.classList.add('is-visible');
                             element.style.animation = 'line-draw 1s ease-out forwards';
                         }
-                        
-                        // One-time animation
-                        observer.unobserve(element);
+                    } else {
+                        // Ekrandan çıkınca başlangıç durumuna dön; sonraki girişte yeniden oynat.
+                        element.classList.remove('is-visible');
+                        element.style.animation = '';
                     }
                 });
             }, observerOptions);
@@ -2074,8 +2075,9 @@
 
             const io = new IntersectionObserver((entries)=>{
                 entries.forEach(entry=>{
+                    const el = entry.target;
+
                     if (entry.isIntersecting) {
-                        const el = entry.target;
                         // read optional data attributes for stagger/duration
                         const stagger = parseInt(el.dataset.revealStagger) || parseInt(getComputedStyle(document.documentElement).getPropertyValue('--reveal-stagger')) || 70;
                         const childDur = el.dataset.revealChildDur || null;
@@ -2097,8 +2099,8 @@
                         }
 
                         el.classList.add('in-view');
-                        // once revealed, unobserve to avoid re-triggering
-                        io.unobserve(el);
+                    } else {
+                        el.classList.remove('in-view');
                     }
                 });
             }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
