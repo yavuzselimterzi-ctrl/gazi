@@ -311,60 +311,98 @@
 
         /* Reveal on scroll animations with helper variants */
         :root {
-            --reveal-dur: 360ms;
+            --reveal-dur: 1050ms;
             --reveal-ease: cubic-bezier(.22,1,.36,1);
-            --reveal-child-dur: 260ms;
-            --reveal-stagger: 28ms;
+            --reveal-child-dur: 850ms;
+            --reveal-stagger: 120ms;
         }
         .reveal {
             opacity: 0;
-            transform: translateY(16px) scale(0.996);
-            transition: opacity var(--reveal-dur) var(--reveal-ease), transform var(--reveal-dur) var(--reveal-ease);
-            will-change: opacity, transform;
+            filter: none;
+            transform: none;
+            transition: opacity var(--reveal-dur) var(--reveal-ease), filter var(--reveal-dur) var(--reveal-ease);
+            will-change: opacity;
         }
         .reveal.in-view {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            filter: none;
+            transform: none;
         }
 
         /* Variants */
-        .reveal--slide-left { transform: translateX(16px) scale(0.996); }
-        .reveal--slide-right { transform: translateX(-16px) scale(0.996); }
-        .reveal--zoom { transform: translateY(8px) scale(0.97); }
-        .reveal--fade { transform: none; opacity: 0; }
+        .reveal--slide-left,
+        .reveal--slide-right,
+        .reveal--zoom,
+        .reveal--fade {
+            transform: none;
+            filter: none;
+        }
 
-        .reveal.in-view.reveal--zoom { transform: translateY(0) scale(1); }
+        .reveal.in-view.reveal--zoom,
         .reveal.in-view.reveal--slide-left,
         .reveal.in-view.reveal--slide-right,
-        .reveal.in-view.reveal--fade { transform: translateX(0) translateY(0) scale(1); opacity:1; }
+        .reveal.in-view.reveal--fade {
+            transform: none;
+            opacity: 1;
+        }
 
         /* Stagger children inside revealed containers (JS will assign delays too) */
         .reveal > * {
             opacity: 0;
-            transform: translateY(10px) scale(0.995);
-            transition: opacity var(--reveal-child-dur) ease, transform var(--reveal-child-dur) ease;
+            filter: none;
+            transform: none;
+            transition: opacity var(--reveal-child-dur) var(--reveal-ease), filter var(--reveal-child-dur) var(--reveal-ease);
         }
-        .reveal.in-view > * { opacity:1; transform:none; }
+        .reveal.in-view > * { opacity:1; filter: none; transform:none; }
 
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
-            .reveal, .reveal > *, .btn-hero, .btn-outline-gold, .team-card {
-                transition: none !important;
-                animation: none !important;
+            .reveal, .reveal > *, .scroll-reveal, .btn-hero, .btn-outline-gold, .team-card {
+                transition-duration: 950ms !important;
             }
             .parallax-item, .scroll-fade, .scroll-zoom, .scroll-rotate,
             .scroll-blur-fade, .scroll-glow, .scroll-slide-left,
             .scroll-slide-right, .scroll-flip, .scroll-line-draw,
             .team-card {
-                opacity: 1 !important;
-                transform: none !important;
-                filter: none !important;
-                max-width: 100% !important;
+                animation-duration: 950ms !important;
             }
         }
 
         /* Optional helper for single items */
         .reveal-item { will-change: opacity, transform; }
+
+        .scroll-reveal {
+            opacity: 0;
+            filter: none;
+            transform: none;
+            transition: opacity 1200ms var(--reveal-ease), filter 1200ms var(--reveal-ease);
+            will-change: opacity;
+        }
+        .scroll-reveal.is-visible {
+            opacity: 1;
+            filter: none;
+            transform: none;
+        }
+        .scroll-reveal.scroll-reveal-left,
+        .scroll-reveal.scroll-reveal-right {
+            transform: none;
+        }
+        .scroll-reveal.scroll-reveal-left.is-visible,
+        .scroll-reveal.scroll-reveal-right.is-visible {
+            transform: none;
+        }
+        .scroll-reveal-delay-1 { transition-delay: 80ms; }
+        .scroll-reveal-delay-2 { transition-delay: 160ms; }
+        .scroll-reveal-delay-3 { transition-delay: 240ms; }
+        .scroll-reveal-delay-4 { transition-delay: 320ms; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .scroll-reveal,
+            .scroll-reveal.scroll-reveal-left,
+            .scroll-reveal.scroll-reveal-right {
+                transition-duration: 950ms !important;
+            }
+        }
 
         /* In-site page overlay (fetches and displays another page inside the site) */
         #in-site-panel {
@@ -815,11 +853,12 @@
 
         /* Text fade in cascade */
         @keyframes text-cascade {
-            0% { opacity: 0; transform: translateY(10px); }
-            100% { opacity: 1; transform: translateY(0); }
+            0% { opacity: 0; }
+            100% { opacity: 1; }
         }
         .text-cascade {
             animation: text-cascade 0.8s ease-out forwards;
+            transform: none;
         }
         .text-cascade:nth-child(1) { animation-delay: 0s; }
         .text-cascade:nth-child(2) { animation-delay: 0.15s; }
@@ -856,18 +895,20 @@
 
         /* Slide in from sides */
         @keyframes slide-in-left {
-            from { transform: translateX(-30px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         @keyframes slide-in-right {
-            from { transform: translateX(30px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         .slide-in-left {
             animation: slide-in-left 0.8s ease-out forwards;
+            transform: none;
         }
         .slide-in-right {
             animation: slide-in-right 0.8s ease-out forwards;
+            transform: none;
         }
 
         /* Gradient text animation */
@@ -898,11 +939,12 @@
 
         /* Parallax scroll effect */
         @keyframes parallax-up {
-            from { transform: translateY(40px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         .parallax-item {
             opacity: 0;
+            transform: none;
         }
         .parallax-item.is-visible {
             animation: parallax-up 0.8s ease-out forwards;
@@ -920,33 +962,34 @@
 
         /* Scroll zoom in */
         @keyframes scroll-zoom-in {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         .scroll-zoom {
             opacity: 0;
-            transform: scale(0.9);
+            transform: none;
         }
-        .scroll-zoom.is-visible { animation: scroll-zoom-in 0.9s ease-out forwards; }
+        .scroll-zoom.is-visible { animation: scroll-zoom-in 1.1s var(--reveal-ease) forwards; }
 
         /* Scroll rotate in */
         @keyframes scroll-rotate {
-            from { transform: rotate(-5deg) scale(0.95); opacity: 0; }
-            to { transform: rotate(0) scale(1); opacity: 1; }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         .scroll-rotate {
             opacity: 0;
+            transform: none;
         }
         .scroll-rotate.is-visible { animation: scroll-rotate 0.8s ease-out forwards; }
 
-        /* Scroll blur fade - Blurdan keskinleşme */
+        /* Scroll blur fade - Keskinleşme, hareket yok */
         @keyframes blur-fade-in {
-            from { filter: blur(10px); opacity: 0; }
-            to { filter: blur(0); opacity: 1; }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         .scroll-blur-fade {
             opacity: 0;
-            filter: blur(10px);
+            filter: none;
         }
         .scroll-blur-fade.is-visible { animation: blur-fade-in 1.2s ease-out forwards; }
 
@@ -968,31 +1011,34 @@
 
         /* Scroll slide + fade horizontal */
         @keyframes scroll-slide-left {
-            from { transform: translateX(-50px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         @keyframes scroll-slide-right {
-            from { transform: translateX(50px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         .scroll-slide-left {
             opacity: 0;
+            transform: none;
         }
         .scroll-slide-left.is-visible { animation: scroll-slide-left 0.8s ease-out forwards; }
         .scroll-slide-right {
             opacity: 0;
+            transform: none;
         }
         .scroll-slide-right.is-visible { animation: scroll-slide-right 0.8s ease-out forwards; }
 
         /* Scroll flip in */
         @keyframes scroll-flip {
-            from { transform: perspective(1000px) rotateY(90deg); opacity: 0; }
-            to { transform: perspective(1000px) rotateY(0); opacity: 1; }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         .scroll-flip {
             opacity: 0;
+            transform: none;
         }
-        .scroll-flip.is-visible { animation: scroll-flip 0.9s ease-out forwards; }
+        .scroll-flip.is-visible { animation: scroll-flip 1.15s var(--reveal-ease) forwards; }
 
         /* Scroll line draw - Line çekilerek belirir */
         @keyframes line-draw {
@@ -1354,6 +1400,7 @@
                     <p>Program boyunca gençler, Hariciye, Harbiye, Maarif, Adliye ve Dahiliye encümenlerinde devletin farklı alanlarını temsil eder. Her müzakere, hitabet ve analiz yeteneklerini güçlendirirken; her karar, ortak aklın ürün olarak şekillenmesini sağlar.</p>
 
                     <p>GAZİ Meclis-i Mebusan’ın hedefi, gençleri yalnızca bilgiyle donatmak değil; onların fikir olgunluğunu, liderlik becerilerini ve milli-manevi değerlerini aynı zamanda güçlendirmektir. Çünkü gerçek devlet bilinci, geçmişini bilen ve geleceğini sorumlulukla inşa eden bir neslin eseridir.</p>
+
                 </div>
 
                 <div class="mt-8 text-center">
@@ -1922,10 +1969,17 @@
 
         // Advanced Scroll Animation System - Kaydırma Animasyonları
         (function(){
+            document.querySelectorAll('#hakkimizda .text-center, #hakkimizda .prose > p, #vizyon-misyon .section-title-deco, #vizyon-misyon .reveal-item, #encumenler .section-title-deco, #ekibimiz .section-title-deco, #iletisim > .max-w-7xl > *').forEach((element, index) => {
+                element.classList.add('scroll-reveal');
+                element.classList.add(`scroll-reveal-delay-${(index % 4) + 1}`);
+                if (index % 3 === 1) element.classList.add('scroll-reveal-left');
+                if (index % 3 === 2) element.classList.add('scroll-reveal-right');
+            });
+
             // Intersection Observer Configuration
             const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
+                threshold: 0.16,
+                rootMargin: '0px 0px -12% 0px'
             };
 
             const observer = new IntersectionObserver(function(entries) {
@@ -1933,49 +1987,42 @@
                     const element = entry.target;
 
                     if (entry.isIntersecting) {
+                        element.classList.remove('is-visible');
+                        void element.offsetWidth;
+                        element.classList.add('is-visible');
+
                         // Element üzerindeki scroll animasyon sınıflarını tespit et
                         const classes = element.className;
                         
                         if (classes.includes('parallax-item')) {
                             element.classList.add('is-visible');
-                            element.style.animationName = 'parallax-up';
-                            element.style.animation = 'parallax-up 0.8s ease-out forwards';
                         }
                         if (classes.includes('scroll-fade')) {
                             element.classList.add('is-visible');
-                            element.style.animation = 'scroll-fade-in 1s ease-out forwards';
                         }
                         if (classes.includes('scroll-zoom')) {
                             element.classList.add('is-visible');
-                            element.style.animation = 'scroll-zoom-in 0.9s ease-out forwards';
                         }
                         if (classes.includes('scroll-rotate')) {
                             element.classList.add('is-visible');
-                            element.style.animation = 'scroll-rotate 0.8s ease-out forwards';
                         }
                         if (classes.includes('scroll-blur-fade')) {
                             element.classList.add('is-visible');
-                            element.style.animation = 'blur-fade-in 1.2s ease-out forwards';
                         }
                         if (classes.includes('scroll-glow')) {
                             element.classList.add('is-visible');
-                            element.style.animation = 'scroll-glow-in 1s ease-out forwards';
                         }
                         if (classes.includes('scroll-slide-left')) {
                             element.classList.add('is-visible');
-                            element.style.animation = 'scroll-slide-left 0.8s ease-out forwards';
                         }
                         if (classes.includes('scroll-slide-right')) {
                             element.classList.add('is-visible');
-                            element.style.animation = 'scroll-slide-right 0.8s ease-out forwards';
                         }
                         if (classes.includes('scroll-flip')) {
                             element.classList.add('is-visible');
-                            element.style.animation = 'scroll-flip 0.9s ease-out forwards';
                         }
                         if (classes.includes('scroll-line-draw')) {
                             element.classList.add('is-visible');
-                            element.style.animation = 'line-draw 1s ease-out forwards';
                         }
                     } else {
                         // Ekrandan çıkınca başlangıç durumuna dön; sonraki girişte yeniden oynat.
@@ -1989,7 +2036,7 @@
             const scrollElements = document.querySelectorAll(
                 '.parallax-item, .scroll-fade, .scroll-zoom, .scroll-rotate, ' +
                 '.scroll-blur-fade, .scroll-glow, .scroll-slide-left, .scroll-slide-right, ' +
-                '.scroll-flip, .scroll-line-draw'
+                '.scroll-flip, .scroll-line-draw, .scroll-reveal'
             );
             
             scrollElements.forEach(el => observer.observe(el));
@@ -2001,7 +2048,7 @@
                 
                 parallaxElements.forEach(element => {
                     const speed = element.getAttribute('data-parallax') || 0.5;
-                    element.style.transform = `translateY(${scrollY * speed}px)`;
+                    element.style.transform = `translate3d(0, ${scrollY * speed}px, 0)`;
                 });
             }, { passive: true });
 
