@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply min-h-screen bg-[#07111b] text-slate-100 antialiased;
+}
+
+.gazi-shell {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(155, 118, 50, 0.12), transparent 24rem),
+    linear-gradient(135deg, #f5eddd 0%, #fffaf0 48%, #eee2cd 100%);
+  color: #3e1d1d;
+}
+
+.gazi-shell .font-serif {
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.form-heading {
+  @apply border-l-4 border-[#9b7632] pl-4 font-serif text-2xl font-bold text-[#3e1d1d];
+}
+
+.form-textarea {
+  @apply mt-2 min-h-28 w-full resize-y rounded-sm border border-[#d7c7ae] bg-[#fffaf0] p-4 text-[#351b1b] outline-none transition placeholder:text-[#aa9887] focus:border-[#9b7632] focus:ring-2 focus:ring-[#9b7632]/15;
+}

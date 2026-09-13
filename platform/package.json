@@ -1,0 +1,14 @@
+{
+  "name": "gazimeclis-platform",
+  "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "pnpm --filter @gazimeclis/web dev",
+    "dev:api": "pnpm --filter @gazimeclis/api start:dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint"
+  }
+}
