@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Yavuz Selim Terzi ile WhatsApp veya e-posta üzerinden iletişime geçin.">
+    <title>Yavuz Selim Terzi ile İletişim — GAZİ Meclis-i Mebusan</title>
+    <link rel="icon" type="image/png" href="görseller/logo.png">
+    <link rel="shortcut icon" href="görseller/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: light;
+            --wine: #3D0C0D;
+            --deep-wine: #1C0404;
+            --gold: #D4AF37;
+            --paper: #F2EBDC;
+            --ink: #2A0E0E;
+            --green: #176B45;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            color: #f0ece4;
+            font-family: 'EB Garamond', serif;
+            background: var(--deep-wine) url('görseller/gazi site arka plan.png') center / cover fixed no-repeat;
+        }
+
+        body::before {
+            position: fixed;
+            z-index: -1;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(28, 4, 4, .82), rgba(61, 12, 13, .76));
+            content: '';
+        }
+
+        .site-header {
+            position: relative;
+            background: rgba(61, 12, 13, .94);
+            border-bottom: 1px solid rgba(212, 175, 55, .3);
+        }
+
+        .site-header-inner {
+            display: flex;
+            max-width: 1280px;
+            min-height: 76px;
+            margin: 0 auto;
+            padding: .75rem 1.5rem;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .site-brand {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            color: var(--gold);
+            font-family: 'Cinzel', serif;
+            text-decoration: none;
+        }
+
+        .site-brand img { width: 2.75rem; height: 2.75rem; object-fit: contain; }
+        .site-brand small { display: block; color: rgba(255, 255, 255, .8); font-size: .62rem; }
+
+        .back-link {
+            padding: .65rem .9rem;
+            border: 1px solid rgba(212, 175, 55, .7);
+            color: var(--gold);
+            font: 600 .72rem 'Cinzel', serif;
+            text-decoration: none;
+            transition: background-color .2s ease, color .2s ease;
+        }
+
+        .back-link:hover, .back-link:focus-visible { background: var(--gold); color: var(--deep-wine); }
+
+        main {
+            display: grid;
+            min-height: calc(100vh - 76px);
+            padding: 3rem 1.25rem;
+            place-items: center;
+        }
+
+        .contact-panel {
+            width: min(100%, 780px);
+            padding: 2.5rem;
+            border: 1px solid rgba(212, 175, 55, .35);
+            border-radius: 8px;
+            background: var(--paper);
+            box-shadow: 0 24px 70px rgba(0, 0, 0, .36);
+            color: var(--ink);
+            text-align: center;
+        }
+
+        .eyebrow {
+            margin: 0 0 .75rem;
+            color: #8E6E1F;
+            font: 600 .75rem 'Cinzel', serif;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0;
+            color: var(--wine);
+            font: 700 2rem/1.25 'Cinzel', serif;
+        }
+
+        .intro { margin: .75rem 0 2rem; font-size: 1.15rem; }
+
+        .contact-options {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            text-align: left;
+        }
+
+        .contact-option {
+            display: flex;
+            min-height: 190px;
+            padding: 1.5rem;
+            flex-direction: column;
+            align-items: flex-start;
+            border: 1px solid rgba(61, 12, 13, .16);
+            border-top: 4px solid var(--gold);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, .54);
+            color: var(--ink);
+            text-decoration: none;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .contact-option:hover, .contact-option:focus-visible {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(42, 14, 14, .14);
+        }
+
+        .contact-option--whatsapp { border-top-color: var(--green); }
+        .option-label { color: #66533A; font: 600 .72rem 'Cinzel', serif; text-transform: uppercase; }
+        .option-title { margin: .5rem 0 .25rem; color: var(--wine); font: 700 1.25rem 'Cinzel', serif; }
+        .option-value { overflow-wrap: anywhere; font-size: 1.1rem; }
+        .option-action { margin-top: auto; padding-top: 1.25rem; color: var(--green); font: 700 .8rem 'Cinzel', serif; }
+        .contact-option--email .option-action { color: var(--wine); }
+
+        @media (max-width: 600px) {
+            .site-header-inner { min-height: 68px; padding: .65rem 1rem; }
+            .site-brand img { width: 2.4rem; height: 2.4rem; }
+            .back-link { padding: .55rem .65rem; font-size: .62rem; }
+            main { min-height: calc(100vh - 68px); padding: 1.5rem 1rem; }
+            .contact-panel { padding: 1.5rem 1rem; }
+            h1 { font-size: 1.45rem; }
+            .contact-options { grid-template-columns: 1fr; }
+            .contact-option { min-height: 160px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a class="site-brand" href="Gazi%20Meclis-i%20Mebusan.html#anasayfa">
+                <img src="görseller/logo.png" alt="">
+                <span><strong>GAZİ</strong><small>MECLİS-İ MEBUSAN</small></span>
+            </a>
+            <a class="back-link" href="Gazi%20Meclis-i%20Mebusan.html#ekibimiz">Ekibe dön</a>
+        </div>
+    </header>
+    <main>
+        <section class="contact-panel" aria-labelledby="contact-title">
+            <p class="eyebrow">Genel Başkan</p>
+            <h1 id="contact-title">Yavuz Selim Terzi</h1>
+            <p class="intro">İletişim kurmak için bir yöntem seçin.</p>
+            <div class="contact-options">
+                <a class="contact-option contact-option--whatsapp" href="https://wa.me/905331451029" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp ile +90 533 145 10 29 numarasına yaz">
+                    <span class="option-label">Mesajlaşma</span>
+                    <span class="option-title">WhatsApp</span>
+                    <span class="option-value">+90 533 145 10 29</span>
+                    <span class="option-action">WhatsApp'ı aç</span>
+                </a>
+                <a class="contact-option contact-option--email" href="mailto:yavuzselimterzi@gmail.com" aria-label="yavuzselimterzi@gmail.com adresine e-posta gönder">
+                    <span class="option-label">E-posta</span>
+                    <span class="option-title">E-posta gönder</span>
+                    <span class="option-value">yavuzselimterzi@gmail.com</span>
+                    <span class="option-action">E-posta uygulamasını aç</span>
+                </a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
