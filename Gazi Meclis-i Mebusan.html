@@ -69,6 +69,12 @@
                         <div class="in-site-content"></div>
                     </div>
                 `;
+                const header = document.querySelector('header');
+                const setPanelTop = () => {
+                    panel.style.top = `${header ? header.getBoundingClientRect().height : 0}px`;
+                };
+                setPanelTop();
+                window.addEventListener('resize', setPanelTop);
                 document.body.appendChild(panel);
                 panel.querySelector('.in-site-close').addEventListener('click', closeInSitePage);
                 return panel;
@@ -81,7 +87,10 @@
                     const text = await res.text();
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(text, 'text/html');
-                    const content = doc.body ? doc.body.innerHTML : text;
+                    const body = doc.body;
+                    const pageHeader = body && body.querySelector('.site-header');
+                    if (pageHeader) pageHeader.remove();
+                    const content = body ? body.innerHTML : text;
                     const title = doc.querySelector('title') ? doc.querySelector('title').textContent : document.title;
 
                     const panel = createPanel();
@@ -148,10 +157,19 @@
         })();
     </script>
     <style>
+        @view-transition { navigation: auto; }
+        ::view-transition-group(about-page) {
+            animation-duration: 650ms;
+            animation-timing-function: cubic-bezier(0.2, 0.75, 0.25, 1);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            ::view-transition-group(about-page) { animation-duration: 1ms; }
+        }
         html {
             scroll-behavior: smooth;
             scroll-padding-top: 1.5rem;
         }
+        #hakkimizda { view-transition-name: about-page; }
         body {
             font-family: 'EB Garamond', serif;
             background-color: #1C0404;
@@ -1444,24 +1462,7 @@
                     <a href="hakkimizda-full.html" class="btn-outline-gold">Devamını Oku</a>
                 </div>
 
-                <div class="mt-12 max-w-5xl mx-auto">
-                    <div class="rounded-[2rem] border border-[#b08b2e]/30 bg-[#3D0C0D] p-8 md:p-10 shadow-[0_30px_80px_rgba(28,4,4,0.22)] reveal-item">
-                        <div class="mb-8 text-center">
-                            <h3 class="font-title text-2xl md:text-3xl font-bold uppercase tracking-[0.2em] text-gold">GENEL BAŞKANIN MESAJI</h3>
-                            <div class="mx-auto mt-3 h-[1px] w-24 bg-gold/70"></div>
-                        </div>
-                        <div class="space-y-5 text-[1.02rem] leading-8 text-[#f8ead1]">
-                            <p><strong>Kıymetli Kardeşim</strong></p>
-                            <p>Her neslin, kendisinden önce gelenlerden devraldığı bir <strong>miras</strong> ve kendisinden sonra gelenlere bırakacağı bir <strong>emanet</strong> vardır. Bizim için tarih, yalnızca geçmişte yaşanmış hadiselerin bütünü değil; bugün kim olduğumuzu ve yarın kim olacağımızı hatırlatan büyük bir hafızadır.</p>
-                            <p>GAZİ Meclis-i Mebusan’ı bu anlayışla inşa ederken, gençlerimizin tarihine yalnızca uzaktan bakmasını değil; onu anlamasını, sorgulamasını ve ondan ilham almasını arzu ediyoruz. Zira bir milletin <strong>kökleriyle irtibatı kuvvetli olmadıkça istikbale dair kurduğu her cümle eksik kalacaktır.</strong></p>
-                            <p>Bizler; fikirleri olan, sözünün arkasında duran, farklı düşünceleri dinlemekten çekinmeyen ve memleket meselelerine karşı <strong>mesuliyet şuuru</strong> taşıyan bir neslin yetişmesine katkı sunmayı kendimize bir vazife addediyoruz.</p>
-                            <p>Bu yolda bizim için en kıymetli şey, geride bırakacağımız izdir. Bir gencin tarihe bakışını değiştirebilmek, bir fikrin filizlenmesine vesile olmak, bir idealin peşinden gitme cesareti kazandırabilmek… Belki de bütün gayretimizin en güzel karşılığı budur.</p>
-                            <p>Temennimiz odur ki burada atılan her adım, geleceğe dair güzel bir başlangıca vesile olsun. Çünkü biz inanıyoruz ki <strong>mazisini bilen bir gençlik, istikbalini daha sağlam inşa eder; istikbaline inanan bir gençlik ise milletinin kaderine yön verebilir.</strong></p>
-                            <p><strong>Gayret ile başlayıp, Adalet ile yürüyen; Zarafet ile yükselen ve İstikbal'e yürüyen bir nesil için...</strong></p>
-                            <p class="pt-4 text-right font-title text-lg font-semibold text-gold">Yavuz Selim Terzi<br><span class="text-sm text-[#f8ead1]/80">Genel Başkan</span></p>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </section>
 
