@@ -9,6 +9,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <style>
+        body { margin:0; }
+        .site-header { position:sticky; top:0; z-index:50; background:rgba(61,12,13,.92); border-bottom:1px solid rgba(212,175,55,.2); backdrop-filter:blur(12px); }
+        .site-header-inner { max-width:1280px; margin:0 auto; padding:.75rem 1.5rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+        .site-brand { display:flex; align-items:center; gap:.75rem; color:#D4AF37; text-decoration:none; font-family:'Cinzel',serif; }
+        .site-brand img { width:2.75rem; height:2.75rem; object-fit:contain; filter:brightness(0) saturate(100%) invert(72%) sepia(45%) saturate(600%) hue-rotate(5deg) brightness(95%) contrast(92%); }
+        .site-brand small { display:block; color:rgba(255,255,255,.8); font-size:.62rem; letter-spacing:.16em; }
+        .site-nav { display:flex; flex-wrap:wrap; justify-content:center; gap:.5rem 1.25rem; font:600 .68rem 'Cinzel',serif; letter-spacing:.08em; }
+        .site-nav a { color:rgba(255,255,255,.82); text-decoration:none; transition:color .2s ease; }
+        .site-nav a:hover { color:#D4AF37; }
+        .site-apply { border:1px solid #D4AF37; padding:.55rem 1rem; color:#D4AF37; text-decoration:none; font:600 .68rem 'Cinzel',serif; letter-spacing:.08em; white-space:nowrap; }
         body {
             font-family: 'EB Garamond', serif;
             background-image: url('görseller/gazi site arka plan.png');
@@ -36,12 +46,23 @@
             z-index: 1;
         }
         .container { max-width:900px; margin:0 auto; background:#F2EBDC; color:#2a0e0e; padding:2.5rem; border-radius:8px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+        .site-page-content { padding:2rem; }
         .font-title { font-family: 'Cinzel', serif; }
         a.back { display:inline-block; margin-bottom:1rem; color:#D4AF37; }
     </style>
 </head>
 <body>
-    <div class="max-w-3xl mx-auto text-center py-6">
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a class="site-brand" href="Gazi%20Meclis-i%20Mebusan.html#anasayfa"><img src="görseller/logo.png" alt=""><span><strong>GAZİ</strong><small>MECLİS-İ MEBUSAN</small></span></a>
+            <nav class="site-nav" aria-label="Ana gezinme">
+                <a href="Gazi%20Meclis-i%20Mebusan.html#anasayfa">ANA SAYFA</a><a href="Gazi%20Meclis-i%20Mebusan.html#hakkimizda">HAKKIMIZDA</a><a href="Gazi%20Meclis-i%20Mebusan.html#vizyon-misyon">VİZYON &amp; MİSYON</a><a href="Gazi%20Meclis-i%20Mebusan.html#encumenler">ENCÜMENLER</a><a href="Gazi%20Meclis-i%20Mebusan.html#ekibimiz">EKİBİMİZ</a><a href="Gazi%20Meclis-i%20Mebusan.html#iletisim">İLETİŞİM</a>
+            </nav>
+            <a class="site-apply" href="#basvurular">BAŞVURU YAP</a>
+        </div>
+    </header>
+    <main class="site-page-content">
+    <div id="basvurular" class="max-w-3xl mx-auto text-center py-6">
         <div class="mx-auto mb-6">
             <img src="görseller/logo.png" alt="Logo" class="w-20 h-20 mx-auto object-contain logo-gold">
         </div>
@@ -51,15 +72,12 @@
 
         <div class="rounded-[1rem] border border-gold/20 bg-[#fff7ea] p-6 text-left shadow-lg">
             <p class="text-sm text-[#2a0e0e] leading-8 mb-4">Muhterem Ziyaretçilerimiz,</p>
-
-            <p class="font-title text-base md:text-lg font-semibold text-[#3D0C0D] leading-8 mb-4">GAZİ MECLİS-İ MEBUSAN BAŞVURULARI ÇOK YAKINDA AÇILIYOR</p>
-
-            <p class="text-sm text-[#2a0e0e] leading-8 mb-4">Bireysel ve delegasyon başvuruları açıldığında başvurunuzu doğrudan web sitemiz üzerinden gerçekleştirebilirsiniz.</p>
-
-            <p class="text-sm text-[#2a0e0e] leading-8 mb-4">O güne dek resmî duyurularımızı takip etmenizi rica eder, göstereceğiniz ilgi için teşekkür ederiz.</p>
-
-            <p class="text-sm text-gold/80 italic leading-8 mb-4">"Geçmişini bilen, geleceğini yazan nesil."</p>
-
+            <p class="font-title text-base md:text-lg font-semibold text-[#3D0C0D] leading-8 mb-4">GAZİ MECLİS-İ MEBUSAN BAŞVURULARI AÇILDI</p>
+            <p class="text-sm text-[#2a0e0e] leading-8">Başvuru türünü seçerek ilgili formu doldurabilirsiniz.</p>
+            <div class="mt-6 grid gap-4 sm:grid-cols-2">
+                <a href="https://docs.google.com/forms/d/1jF5r9Gb_nqYCE31vyuT_uwmEaNj5EWMJKDNK91T2wrE/edit" class="border border-[#3D0C0D] bg-[#3D0C0D] px-5 py-4 font-title text-sm font-semibold text-white transition hover:bg-[#5a1718]">Bireysel Başvuru Formu</a>
+                <a href="https://docs.google.com/forms/d/17qciBd1r5K6N46QS_4XGAPewRf1Vka173ktvhM-scfY/edit" class="border border-[#3D0C0D] px-5 py-4 font-title text-sm font-semibold text-[#3D0C0D] transition hover:bg-[#3D0C0D] hover:text-white">Delegasyon Başvuru Formu</a>
+            </div>
         </div>
 
         <div class="mt-6">
@@ -67,5 +85,6 @@
             <a href="https://www.instagram.com/gazimeclis26/" target="_blank" rel="noopener noreferrer" class="btn-hero">Bizi Takip Et</a>
         </div>
     </div>
+    </main>
 </body>
 </html>
