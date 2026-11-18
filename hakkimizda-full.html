@@ -9,16 +9,49 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'EB Garamond', serif; background:#1C0404; color:#f0ece4; padding:2rem; }
-        .container { position:relative; max-width:900px; margin:0 auto; background:#F2EBDC; color:#2a0e0e; padding:2.5rem; border-radius:8px; }
+        @view-transition { navigation: auto; }
+        ::view-transition-group(about-page) {
+            animation-duration: 650ms;
+            animation-timing-function: cubic-bezier(0.2, 0.75, 0.25, 1);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            ::view-transition-group(about-page) { animation-duration: 1ms; }
+        }
+        body { margin:0; font-family:'EB Garamond',serif; background-color:#1C0404; background-image:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(212,175,55,.06) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 100% 100%,rgba(61,12,13,.8) 0%,transparent 50%),linear-gradient(180deg,#1C0404 0%,#2A0809 40%,#3D0C0D 100%); background-attachment:fixed; color:#f0ece4; }
+        .site-header { position:sticky; top:0; z-index:50; background:rgba(61,12,13,.92); border-bottom:1px solid rgba(212,175,55,.2); backdrop-filter:blur(12px); }
+        .site-header-inner { max-width:1280px; margin:0 auto; padding:.75rem 1.5rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+        .site-brand { display:flex; align-items:center; gap:.75rem; color:#D4AF37; text-decoration:none; font-family:'Cinzel',serif; }
+        .site-brand img { width:2.75rem; height:2.75rem; object-fit:contain; filter:brightness(0) saturate(100%) invert(72%) sepia(45%) saturate(600%) hue-rotate(5deg) brightness(95%) contrast(92%); }
+        .site-brand small { display:block; color:rgba(255,255,255,.8); font-size:.62rem; letter-spacing:.16em; }
+        .site-nav { display:flex; flex-wrap:wrap; justify-content:center; gap:.5rem 1.25rem; font:600 .68rem 'Cinzel',serif; letter-spacing:.08em; }
+        .site-nav a { color:rgba(255,255,255,.82); text-decoration:none; transition:color .2s ease; }
+        .site-nav a:hover { color:#D4AF37; }
+        .site-apply { border:1px solid #D4AF37; padding:.55rem 1rem; color:#D4AF37; text-decoration:none; font:600 .68rem 'Cinzel',serif; letter-spacing:.08em; white-space:nowrap; }
+        .container { position:relative; max-width:900px; width:calc(100% - 2rem); margin:2rem auto; background:#F2EBDC; color:#2a0e0e; padding:2.5rem; border-radius:8px; view-transition-name:about-page; animation: page-enter 700ms cubic-bezier(0.2, 0.75, 0.25, 1) both; }
         .container::before { content: ""; position:absolute; inset:0; background-image: url("görseller/ChatGPT%20Image%2013%20Tem%202026%2020_46_30.png"); background-size:cover; background-position:center; background-repeat:no-repeat; opacity:0.45; z-index:0; }
         .container > * { position:relative; z-index:1; }
         .font-title { font-family: 'Cinzel', serif; }
         a.back { display:inline-block; margin-bottom:1rem; color:#D4AF37; }
         blockquote { font-style:italic; color:#6b4f3a; }
+        @keyframes page-enter {
+            from { opacity:0; transform:translateY(24px); }
+            to { opacity:1; transform:translateY(0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .container { animation:none; }
+        }
     </style>
 </head>
 <body>
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a class="site-brand" href="Gazi%20Meclis-i%20Mebusan.html#anasayfa"><img src="görseller/logo.png" alt=""><span><strong>GAZİ</strong><small>MECLİS-İ MEBUSAN</small></span></a>
+            <nav class="site-nav" aria-label="Ana gezinme">
+                <a href="Gazi%20Meclis-i%20Mebusan.html#anasayfa">ANA SAYFA</a><a href="Gazi%20Meclis-i%20Mebusan.html#hakkimizda">HAKKIMIZDA</a><a href="Gazi%20Meclis-i%20Mebusan.html#vizyon-misyon">VİZYON &amp; MİSYON</a><a href="Gazi%20Meclis-i%20Mebusan.html#encumenler">ENCÜMENLER</a><a href="Gazi%20Meclis-i%20Mebusan.html#ekibimiz">EKİBİMİZ</a><a href="Gazi%20Meclis-i%20Mebusan.html#iletisim">İLETİŞİM</a>
+            </nav>
+            <a class="site-apply" href="basvuru.html">BAŞVURULAR KAPALI</a>
+        </div>
+    </header>
     <div class="container">
         <a href="Gazi%20Meclis-i%20Mebusan.html" class="back">← Ana Sayfaya Dön</a>
         <h1 class="font-title text-3xl mb-2">GAZİ Meclis-i Mebusan</h1>
